@@ -128,7 +128,7 @@ struct array {
 	template <size_t i>
 	constexpr array set(Type c) {
 		return array(data, typename meta_sequence<size_t, 0, i>::type(), c,
-	               data, typename meta_sequence<size_t, i + 1, size>::type());
+		             data, typename meta_sequence<size_t, i + 1, size>::type());
 	}
 	
 	constexpr array set(size_t i, Type c) {
