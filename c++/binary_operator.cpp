@@ -1,53 +1,81 @@
 
-#include <algorithm>
-#include <iostream>
+#include <type_traits>
 #include <utility>
 
-template <typename T, class Op, bool Enable>
-struct op_ref {
+namespace detail {
+
+// No need to guve up constexpr for std::forward
+template <class T>
+constexpr T && forward(typename std::remove_reference<T>::type & t) noexcept {
+	return static_cast<T &&>(t);
+}
+template <class T>
+constexpr T && forward(typename std::remove_reference<T>::type && t) noexcept {
+	static_assert(!std::is_lvalue_reference<T>::value,
+	              "Can not forward rvalue as lvalue.");
+	return static_cast<T &&>(t);
+}
+
+template <
+	typename Left,
+	class Op,
+	typename = typename std::decay<Op>::type::binary_operator_tag
+>
+struct bound_operator {
 	
-	T & left;
-	const Op & op;
+	Left && left;
+	Op && op;
 	
-	inline op_ref(T & _left, const Op & _op) : left(_left), op(_op) { }
-	inline op_ref(const op_ref & o) : left(o.left), op(o.op) { }
+	constexpr bound_operator(Left && left, Op && op)
+		: left(forward<Left>(left)), op(forward<Op>(op)) { }
 	
 };
 
-template <typename T, class Op>
-inline op_ref<T, Op, Op::is_binary_operator> operator<(T & left, const Op & op) {
-	return op_ref<T, Op, Op::is_binary_operator>(left, op);
+} // namespace detail
+
+template <typename Left, class Op>
+constexpr detail::bound_operator<Left, Op> operator<(Left && left, Op && op) {
+	return { detail::forward<Left>(left), detail::forward<Op>(op) };
 }
 
-template <typename T, class Op>
-inline void operator>(const op_ref<T, Op, Op::is_binary_operator> ref, T & right) {
-	ref.op(ref.left, right);
+template <typename Left, class Op, typename Right>
+constexpr auto operator>(detail::bound_operator<Left, Op> && ref, Right && right)
+	-> decltype(ref.op(ref.left, right)) {
+	return ref.op(detail::forward<Left>(ref.left), detail::forward<Right>(right));
 }
 
-struct binary_operator { static const bool is_binary_operator = true; };
+
+//-------------------------------------------------------------------------
 
 
+#include <algorithm>
 
-static const struct swap_operator : public binary_operator {
+constexpr struct swap_operator {
+	
+	typedef void binary_operator_tag;
 	
 	template <typename T>
-	inline void operator()(T & a, T & b) const {
+	void operator()(T & a, T & b) const {
 		std::swap(a, b);
 	}
 	
 } swap = swap_operator();
 
 
+//-------------------------------------------------------------------------
+
+
+#include <iostream>
 
 int main() {
 	
-	float a = 0;
+	int a = 0;
 	
-	float b = 1;
+	int b = 1;
 	
 	a <swap> b;
 	
 	std::cout << "a=" << a << " b=" << b << std::endl;
 	
-	return a < b;
+	return 0;
 }
