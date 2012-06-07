@@ -4,7 +4,7 @@
 
 namespace detail {
 
-// No need to guve up constexpr for std::forward
+// No need to give up constexpr for std::forward
 template <class T>
 constexpr T && forward(typename std::remove_reference<T>::type & t) noexcept {
 	return static_cast<T &&>(t);
