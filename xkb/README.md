@@ -8,7 +8,7 @@ The following table lists the modified keys:
 
 | Key      |  AltGr     |  AltGr + Shift |
 |--------- | ---------- | -------------- |
-| `,` `<`  | dead ¸     | «              |
+| <font style='font-size:200%'>`,` `<`</font>  | dead ¸     | «              |
 | `.` `>`  | dead ˙     | »              |
 | `/` `?`  | ¿          | dead ?         |
 | `a` `A`  | ä          | Ä              |
