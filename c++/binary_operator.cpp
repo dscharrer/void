@@ -49,16 +49,22 @@ constexpr auto operator>(detail::bound_operator<Left, Op> && ref, Right && right
 
 #include <algorithm>
 
+namespace infix {
+
 constexpr struct swap_operator {
 	
 	typedef void binary_operator_tag;
 	
 	template <typename T>
 	void operator()(T & a, T & b) const {
-		std::swap(a, b);
+		using std::swap;
+		swap(a, b);
 	}
 	
 } swap = swap_operator();
+
+} // namespace infix
+using namespace infix;
 
 
 //-------------------------------------------------------------------------
