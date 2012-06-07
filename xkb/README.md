@@ -28,7 +28,7 @@ The following table lists the modified keys:
 | `9` `(`  | dead ˘     | dead ˘         |
 | `0` `)`  | dead ˚     | dead ˚         |
 | `-` `_`  | dead .     | dead .         |
-| <code>``</code> `~` | dead `     | dead ~         |
+| <code>\`</code> `~` | dead `     | dead ~         |
 
 Dead keys don't print anything, but instead modify the next input by composing the symbol and key if possible.
 
