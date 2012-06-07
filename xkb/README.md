@@ -92,7 +92,6 @@ These sequences are not defined by the keyboard layout, but by the locale (not m
 | №      | `U+2116` | `No` `NO`                               |
 | ‽      | `U+203D` | `!?`                                    |
 | ☭      | `U+262D` | `CCCP`                                  |
-| Ⓐ      | `U+24B6` | `OA`                                    |
 | ♥      | `U+2665` | `<3`                                    |
 | ☺      | `U+263A` | `:)`                                    |
 | ☹      | `U+2639` | `:(`                                    |
@@ -157,7 +156,7 @@ These sequences are not defined by the keyboard layout, but by the locale (not m
 | ⑧      | `U+2467` | `(8)`                                   |
 | ⑨      | `U+2468` | `(9)`                                   |
 | ⑩      | `U+2469` | `(10)`                                  |
-| Ⓐ      | `U+24B6` | `(A)`                                   |
+| Ⓐ      | `U+24B6` | `(A)` `OA`                              |
 | ⓐ      | `U+24D0` | `(a)`                                   |
 | (more) |          | 0-20+, A-Z, a-z                         |
 | √      | `U+221A` | `v/` `/v`                               |
