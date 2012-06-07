@@ -28,7 +28,7 @@ The following table lists the modified keys:
 | `9` `(`  | dead ˘     | dead ˘         |
 | `0` `)`  | dead ˚     | dead ˚         |
 | `-` `_`  | dead .     | dead .         |
-| `\`` `~` | dead `     | dead ~         |
+| ```` `~` | dead `     | dead ~         |
 
 Dead keys don't print anything, but instead modify the next input by composing the symbol and key if possible.
 
@@ -165,7 +165,7 @@ These sequences are not defined by the keyboard layout, but by the locale (not m
 | ⋄      | `U+22C4` | `<>` `><`                               |
 | ⌷      | `U+2337` | `[]`                                    |
 | ⌿      | `U+233F` | `/-` `-/`                               |
-| ⍀      | `U+2340` | `\\-` `-\\`                             |
+| ⍀      | `U+2340` | `\-` `-\`                               |
 | ⍬      | `U+236C` | `0~` `~0`                               |
 | ⍭      | `U+236D` | `|~` `~|`                               |
 
