@@ -32,6 +32,8 @@ The following table lists the modified keys:
 
 Dead keys don't print anything, but instead modify the next input by composing the symbol and key if possible.
 
+# Compose Sequences
+
 Additionally, the menu key is now the multi/compose key. After pressing the menu key, the following key combinations will produce special characters. (for the en_US.UTF-8 locale)
 These sequences are not defined by the keyboard layout, but by the locale (not modified here). This table lists only those sequences that can be typed on a US key map and omits those symbols that are available already.
 
