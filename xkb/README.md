@@ -75,7 +75,7 @@ These sequences are not defined by the keyboard layout, but by the locale (not m
 | ₧      | `U+20A7` | `Pt`                                    |
 | ₨      | `U+20A8` | `Rs`                                    |
 | €      | `U+20AC` | `C=` `=C` `c=` `=c` `E=` `=E` `e=` `=e` |
-| ¢      | `U+00A2` | `&#124;C` `|c` `C|` `c|` `c/` `/c`           |
+| ¢      | `U+00A2` | <code>&#124;C</code> <code>&#124;c</code> <code>C&#124;</code> <code>c&#124;</code> `c/` `/c` |
 | £      | `U+00A3` | `L-` `l-` `-L` `-l`                     |
 | ¥      | `U+00A5` | `Y=` `y=` `=Y` `=y` `Y-` `-Y` `y-` `-y` |
 | –      | `U+2013` | `--.`                                   |
@@ -167,7 +167,7 @@ These sequences are not defined by the keyboard layout, but by the locale (not m
 | ⌿      | `U+233F` | `/-` `-/`                               |
 | ⍀      | `U+2340` | `\-` `-\`                               |
 | ⍬      | `U+236C` | `0~` `~0`                               |
-| ⍭      | `U+236D` | `|~` `~|`                               |
+| ⍭      | `U+236D` | <code>&#124;~</code> <code>~&#124;</code> |
 
 
 ## Installing
