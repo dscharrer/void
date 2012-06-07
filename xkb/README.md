@@ -8,7 +8,7 @@ The following table lists the modified keys:
 
 | Key      |  AltGr     |  AltGr + Shift |
 |--------- | ---------- | -------------- |
-| <font style='font-size:200%'>`,` `<`</font>  | dead ¸     | «              |
+| `,` `<`  | dead ¸     | «              |
 | `.` `>`  | dead ˙     | »              |
 | `/` `?`  | ¿          | dead ?         |
 | `a` `A`  | ä          | Ä              |
@@ -81,7 +81,7 @@ These sequences are not defined by the keyboard layout, but by the locale (not m
 | –      | `U+2013` | `--.`                                   |
 | —      | `U+2014` | `---`                                   |
 | ♩      | `U+2669` | `#q`                                    |
-| ♪      | `U+266A` | `#e                                     |
+| ♪      | `U+266A` | `#e`                                    |
 | ♫      | `U+266B` | `#E`                                    |
 | ♬      | `U+266C` | `#S`                                    |
 | ♭      | `U+266D` | `#b`                                    |
