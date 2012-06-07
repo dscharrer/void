@@ -104,7 +104,7 @@ These sequences are not defined by the keyboard layout, but by the locale (not m
 | ¼      | `U+00BC` | `14`                                    |
 | ½      | `U+00BD` | `12`                                    |
 | ¾      | `U+00BE` | `34`                                    |
-| (more) |          | `xy` where `x` and `y` are digits       |
+| (more)           || `xy` where `x` and `y` are digits       |
 | ⅒      | `U2152` | `110`                                   |
 | ×      | `U+00D7` | `xx`                                    |
 | ÷      | `U+00F7` | `:-` `-:`                               |
@@ -160,7 +160,7 @@ These sequences are not defined by the keyboard layout, but by the locale (not m
 | ⑩      | `U+2469` | `(10)`                                  |
 | Ⓐ      | `U+24B6` | `(A)` `OA`                              |
 | ⓐ      | `U+24D0` | `(a)`                                   |
-| (more) |          | 0-20+, A-Z, a-z                         |
+| (more)           || 0-20+, A-Z, a-z                         |
 | √      | `U+221A` | `v/` `/v`                               |
 | ∞      | `U+221E` | `88`                                    |
 | ≡      | `U+2261` | `=_`                                    |
