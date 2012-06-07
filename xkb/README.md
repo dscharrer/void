@@ -176,7 +176,9 @@ Install by copying `us_de` to `/usr/share/X11/xkb/symbols/` (on Gentoo) - if the
 
 You can then switch to the key map using
 
-    $ setxkbmap us_de
+```console
+$ setxkbmap us_de
+```
 
 This will only set the keymap for the current session. To select it permanently, add the above command to `~/.xinitrc`.
 
