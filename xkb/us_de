@@ -1,0 +1,34 @@
+
+partial default alphanumeric_keys
+xkb_symbols "basic" {
+	
+	name[Group1]= "US/ASCII";
+	include "us"
+	
+	key <AB08> { [ comma,       less,         dead_cedilla,     guillemotleft   ] };
+	key <AB09> { [ period,      greater,      dead_abovedot,    guillemotright  ] };
+	key <AB10> { [ slash,       question,     questiondown,     dead_hook       ] };
+	key <AC01> { [ a,           A,            adiaeresis,       Adiaeresis      ] };
+	key <AC02> { [ s,           S,            ssharp,           ssharp          ] };
+	key <AC05> { [ g,           G,            dead_greek,       dead_greek      ] };
+	key <AC09> { [ l,           L,            sterling,         cent            ] };
+	key <AC10> { [ semicolon,   colon,        dead_diaeresis,   dead_diaeresis  ] };
+	key <AC11> { [ quoteright,  quotedbl,     dead_acute,       acute           ] };
+	key <AD03> { [ e,           E,            EuroSign,         cent            ] };
+	key <AD06> { [ y,           Y,            ydiaeresis,       Ydiaeresis      ] };
+	key <AD07> { [ u,           U,            udiaeresis,       Udiaeresis      ] };
+	key <AD08> { [ i,           I,            idiaeresis,       Idiaeresis      ] };
+	key <AD09> { [ o,           O,            odiaeresis,       Odiaeresis      ] };
+	key <AD10> { [ p,           P,            section,          paragraph       ] };
+	key <AE01> { [ 1,           exclam,       exclamdown,       exclamdown      ] };
+	key <AE06> { [ 6,           asciicircum,  dead_circumflex,  dead_caron      ] };
+	key <AE09> { [ 9,           parenleft,    dead_breve,       dead_breve      ] };
+	key <AE10> { [ 0,           parenright,   dead_abovering,   dead_abovering  ] };
+	key <AE11> { [ minus,       underscore,   dead_belowdot,    dead_belowdot   ] };
+	key <TLDE> { [ grave,       asciitilde,   dead_grave,       dead_tilde      ] };
+	
+	include "level3(ralt_switch)"
+	
+	include "compose(menu)"
+	
+};
