@@ -75,7 +75,7 @@ These sequences are not defined by the keyboard layout, but by the locale (not m
 | ₧      | `U+20A7` | `Pt`                                    |
 | ₨      | `U+20A8` | `Rs`                                    |
 | €      | `U+20AC` | `C=` `=C` `c=` `=c` `E=` `=E` `e=` `=e` |
-| ¢      | `U+00A2` | `|C` `|c` `C|` `c|` `c/` `/c`           |
+| ¢      | `U+00A2` | `\|C` `|c` `C|` `c|` `c/` `/c`           |
 | £      | `U+00A3` | `L-` `l-` `-L` `-l`                     |
 | ¥      | `U+00A5` | `Y=` `y=` `=Y` `=y` `Y-` `-Y` `y-` `-y` |
 | –      | `U+2013` | `--.`                                   |
