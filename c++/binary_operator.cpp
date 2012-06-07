@@ -40,7 +40,7 @@ constexpr detail::bound_operator<Left, Op> operator<(Left && left, Op && op) {
 
 template <typename Left, class Op, typename Right>
 constexpr auto operator>(detail::bound_operator<Left, Op> && ref, Right && right)
-	-> decltype(ref.op(ref.left, right)) {
+	-> decltype(ref.op(detail::forward<Left>(ref.left), detail::forward<Right>(right))) {
 	return ref.op(detail::forward<Left>(ref.left), detail::forward<Right>(right));
 }
 
