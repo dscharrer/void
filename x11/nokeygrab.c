@@ -64,13 +64,13 @@ void * dlsym(void * handle, const char * name) {
 	
 	if(!strcmp(name, "XGrabKeyboard")) {
 		fprintf(stderr, "[nokeygrab] dlsym XGrabKeyboard\n");
-		return &XGrabKeyboard;
+		return XGrabKeyboard;
 	}
 	
 #if GRAB_POINTER
 	if(!strcmp(name, "XGrabPointer")) {
 		fprintf(stderr, "[nokeygrab] dlsym XGrabPointer\n");
-		return &XGrabPointer;
+		return XGrabPointer;
 	}
 #endif
 	
@@ -79,8 +79,8 @@ void * dlsym(void * handle, const char * name) {
 
 /* Let the user know that the library was LD_PRELOADed successfully */
 
-void init_nokeygrab() __attribute__((constructor));
+void init_nokeygrab(void) __attribute__((constructor));
 
-void init_nokeygrab() {
+void init_nokeygrab(void) {
 	fprintf(stderr, "[nokeygrab] attached to process\n");
 }
