@@ -1,6 +1,4 @@
 
-# useful scrips/files for git
-
 ## commit.template
 
 This is a commit template that makes it easier to stay within the recommended line length for the title and body of commit messages in any editor.
