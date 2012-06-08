@@ -34,7 +34,7 @@
 #include <string.h>
 #include <X11/Xlib.h>
 
-#define GRAB_POINTER 0
+#define PREVENT_POINTER_GRAB 0
 
 /*! XGrabKeyboard replacement that ignores all requests */
 int XGrabKeyboard(Display * display, Window grab_window, Bool owner_events,
@@ -43,7 +43,7 @@ int XGrabKeyboard(Display * display, Window grab_window, Bool owner_events,
 	return GrabSuccess;
 }
 
-#if GRAB_POINTER
+#if PREVENT_POINTER_GRAB
 int XGrabPointer(Display * display, Window grab_window, Bool owner_events,
                  unsigned int event_mask, int pointer_mode, int keyboard_mode,
                  Window confine_to, Cursor cursor, Time time) {
@@ -67,12 +67,12 @@ void * dlsym(void * handle, const char * name) {
 		return XGrabKeyboard;
 	}
 	
-#if GRAB_POINTER
+	#if PREVENT_POINTER_GRAB
 	if(!strcmp(name, "XGrabPointer")) {
 		fprintf(stderr, "[nokeygrab] dlsym XGrabPointer\n");
 		return XGrabPointer;
 	}
-#endif
+	#endif
 	
 	return __libc_dlsym(handle, name);
 }
