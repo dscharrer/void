@@ -1,0 +1,44 @@
+#!/bin/sh
+
+has() {
+	which "$1" &> /dev/null
+}
+
+echo '=====> Syncing Portage Tree'
+emerge --sync --quiet
+has layman && layman -S
+has eix-update && eix-update
+
+echo '=====> Updating Portage'
+emerge --update --quiet-build sys-apps/portage
+
+echo '=====> Updating Config Files'
+dispatch-conf
+
+echo '=====> Updating Packages'
+emerge -avDNu --quiet-build --keep-going @world
+
+echo '=====> Updating Preserved Packages'
+emerge -av --quiet-build --keep-going @preserved-rebuild
+
+echo '=====> Updating Config Files'
+dispatch-conf
+
+echo '=====> Cleaning Unused Dependencies'
+emerge --ask --depclean
+
+if has lafilefixer ; then
+	echo '=====> Fixing .la Files'
+	lafilefixer --justfixit > /dev/null
+fi
+
+echo '=====> Checking Linking Consistency'
+revdep-rebuild -- --ask --verbose --quiet-build --keep-going
+
+if has prelink ; then
+	echo '=====> Pre-Linking'
+	prelink -amR > /dev/null
+fi
+
+echo '=====> Mooing'
+emerge --moo
