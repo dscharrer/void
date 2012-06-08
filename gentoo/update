@@ -6,8 +6,12 @@ has() {
 
 echo '=====> Syncing Portage Tree'
 emerge --sync --quiet
-has layman && layman -S
-has eix-update && eix-update
+
+echo '=====> Syncing Overlays'
+has layman && layman --sync-all --quiet
+
+echo '=====> Updating eix Cache'
+has eix-update && eix-update --quiet
 
 echo '=====> Updating Portage'
 emerge --update --quiet-build sys-apps/portage
@@ -16,7 +20,7 @@ echo '=====> Updating Config Files'
 dispatch-conf
 
 echo '=====> Updating Packages'
-emerge -avDNu --quiet-build --keep-going @world
+emerge -avDNu --quiet-build --keep-going @world || exit
 
 echo '=====> Updating Preserved Packages'
 emerge -av --quiet-build --keep-going @preserved-rebuild
