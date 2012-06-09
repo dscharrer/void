@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ "$(id -u)" != '0' ] ; then
-  exec su -c "$0 $@";
+  exec su -c "$0 $@"
 fi
 
 has() {
