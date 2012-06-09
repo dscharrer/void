@@ -4,50 +4,54 @@ has() {
 	which "$1" &> /dev/null
 }
 
-echo '=====> Syncing Portage Tree'
+step() {
+	echo -e "\033[1;34m=====> \033[1;32m$1\033[0m"
+}
+
+step 'Syncing Portage Tree'
 emerge --sync --quiet
 
 if has layman ; then
-	echo '=====> Syncing Overlays'
+	step 'Syncing Overlays'
 	layman --sync-all --quiet
 fi
 
 if has eix-update || has q ; then
-	echo '=====> Updating Cache'
+	step 'Updating Cache'
 	has eix-update && eix-update --quiet
 	has q && q --reinitialize --metacache
 fi
 
-echo '=====> Updating Portage'
+step 'Updating Portage'
 emerge --update --quiet-build sys-apps/portage
 
-echo '=====> Updating Config Files'
+step 'Updating Config Files'
 dispatch-conf
 
-echo '=====> Updating Packages'
+step 'Updating Packages'
 emerge -avDNu --quiet-build --keep-going @world || exit
 
-echo '=====> Updating Preserved Packages'
+step 'Updating Preserved Packages'
 emerge -av --quiet-build --keep-going @preserved-rebuild
 
-echo '=====> Updating Config Files'
+step 'Updating Config Files'
 dispatch-conf
 
-echo '=====> Cleaning Unused Dependencies'
+step 'Cleaning Unused Dependencies'
 emerge --ask --depclean
 
 if has lafilefixer ; then
-	echo '=====> Fixing .la Files'
+	step 'Fixing .la Files'
 	lafilefixer --justfixit > /dev/null
 fi
 
-echo '=====> Checking Linking Consistency'
+step 'Checking Linking Consistency'
 revdep-rebuild -- --ask --verbose --quiet-build --keep-going
 
 if has prelink ; then
-	echo '=====> Pre-Linking'
+	step 'Pre-Linking'
 	prelink -amR > /dev/null
 fi
 
-echo '=====> Mooing'
+step 'Mooing'
 emerge --moo
