@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# Queries the user for yes/no input
+# Usage: query <message> [<default>]
+query() {
+	
+	message="$1"
+	
+	default="$2"
+	case "$default" in
+		'Y' )            message="$message [Yn] " ;;
+		'N' )            message="$message [yN] " ;;
+		* ) default='' ; message="$message [yn] " ;;
+	esac
+	
+	while true; do
+		echo -n "${message}"
+		read -r yn
+		[ "$yn" = '' ] && yn="$default"
+		case "$yn" in
+			'Y'|'y'|'yes'|'Yes'|'YES' ) return 0 ;;
+			'N'|'n'|'no'|'No'|'NO' )    return 1 ;;
+			'' ) echo "Missing input." ;;
+			* ) echo "Invalid input: ${yn}" ;;
+		esac
+	done
+}
+
+query "${@}"
