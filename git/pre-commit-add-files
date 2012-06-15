@@ -1,11 +1,18 @@
 #!/bin/sh
 
+# Prevents commit if there untracked files that are not in .gitignore
 # To use this, copy to .git/hooks/pre-commit
 
-esc=`echo -e '\033'`
+red='' ; white='' ; reset=''
+if [ -t 1 ] && [ `tput colors` != -1 ] ; then
+	red=`printf '\033[1;31m'`
+	white=`printf '\033[1;37m'`
+	reset=`printf '\033[0m'`
+fi
 
-# Prevent commit if there untracked files that are not in .gitignore
 untracked=`git status -u | grep '^# Untracked files:$'`
 if [ "$untracked" != "" ] ; then
-	git status ; echo "${esc}[31;1mAdd untracked files first!${esc}[0m" ; exit 1
+	git status ; echo "${red}Add untracked files first!${reset}"
+	echo "Use the ${white}--no-verify${reset} option to commit anyway."
+	exit 1
 fi
