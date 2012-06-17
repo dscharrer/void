@@ -33,7 +33,7 @@ step 'Updating Config Files'
 dispatch-conf
 
 step 'Updating Packages'
-emerge -avDNu --quiet-build --keep-going @world || exit
+emerge -avDNu --with-bdeps=y --quiet-build --keep-going @world || exit
 
 step 'Updating Preserved Packages'
 emerge -av --quiet-build --keep-going @preserved-rebuild
