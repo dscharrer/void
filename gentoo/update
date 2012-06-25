@@ -4,58 +4,115 @@ if [ "$(id -u)" != '0' ] ; then
   exec su -c "$0 $@"
 fi
 
+# Ze colors
+red='' ; green='' ; blue='' ; white='' ; reset=''
+if [ -t 1 ] && [ `tput colors` != -1 ] ; then
+	red=`printf '\033[1;31m'`
+	green=`printf '\033[1;32m'`
+	blue=`printf '\033[1;34m'`
+	white=`printf '\033[1;37m'`
+	reset=`printf '\033[0m'`
+fi
+
+# Queries the user for yes/no input
+# Usage: query <message> [<default>]
+query() {
+	
+	message="$1"
+	
+	default="$2"
+	case "$default" in
+		'Y' )            message="$message [Yn] " ;;
+		'N' )            message="$message [yN] " ;;
+		* ) default='' ; message="$message [yn] " ;;
+	esac
+	
+	while true; do
+		echo -n "${message}"
+		read -r yn
+		[ "$yn" = '' ] && yn="$default"
+		case "$yn" in
+			'Y'|'y'|'yes'|'Yes'|'YES' ) return 0 ;;
+			'N'|'n'|'no'|'No'|'NO' )    return 1 ;;
+			'' ) echo "Missing input." ;;
+			* ) echo "Invalid input: ${yn}" ;;
+		esac
+	done
+}
+
 has() {
 	which "$1" &> /dev/null
 }
 
 step() {
-	echo -e "\033[1;34m=====> \033[1;32m$1\033[0m"
+	echo "${blue}=====> ${green}$1${reset}"
 }
 
+action() {
+	quiet=0
+	if [ "$1" = "--quiet" ] ; then
+		quiet=1 ; shift
+	fi
+	while true ; do
+		if [ $quiet = 1 ]
+			then "${@}" > /dev/null && return
+			else "${@}" && return
+		fi
+		query "${red}$1 failed! ${white}Quit?${reset}" 'N' && exit 1
+		query "${white}Retry?${reset}" 'Y' || return
+	done
+}
+
+abort() {
+	echo "${red}Aborted!${reset}" ; exit 1
+}
+trap "abort" SIGHUP SIGINT SIGTERM
+
 step 'Syncing Portage Tree'
-emerge --sync --quiet
+action emerge --sync --quiet
 
 if has layman ; then
 	step 'Syncing Overlays'
-	layman --sync-all --quiet
+	action layman --sync-all --quiet
 fi
 
 if has eix-update || has q ; then
 	step 'Updating Cache'
-	has eix-update && eix-update --quiet
-	has q && q --reinitialize --metacache
+	has eix-update && action eix-update --quiet
+	has q && action q --reinitialize --metacache
 fi
 
 step 'Updating Portage'
-emerge --update --quiet-build sys-apps/portage
+action emerge --update --quiet-build sys-apps/portage
 
 step 'Updating Config Files'
-dispatch-conf
+action dispatch-conf
 
 step 'Updating Packages'
-emerge -avDNu --with-bdeps=y --quiet-build --keep-going @world || exit
+action emerge -avDNu --with-bdeps=y --quiet-build --keep-going @world
 
 step 'Updating Preserved Packages'
-emerge -av --quiet-build --keep-going @preserved-rebuild
+action emerge -av --quiet-build --keep-going @preserved-rebuild
 
 step 'Updating Config Files'
-dispatch-conf
+action dispatch-conf
 
 step 'Cleaning Unused Dependencies'
-emerge --ask --depclean
+action emerge --ask --depclean
 
 if has lafilefixer ; then
 	step 'Fixing .la Files'
-	lafilefixer --justfixit > /dev/null
+	action --quiet lafilefixer --justfixit
 fi
 
 step 'Checking Linking Consistency'
-revdep-rebuild -- --ask --verbose --quiet-build --keep-going
+action revdep-rebuild -- --ask --verbose --quiet-build --keep-going
 
 if has prelink ; then
 	step 'Pre-Linking'
+	# Not an action because it currently fails
 	prelink -amR > /dev/null
 fi
 
 step 'Mooing'
-emerge --moo
+action emerge --moo
