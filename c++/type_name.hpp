@@ -1,6 +1,7 @@
 
 #include <string>
 #include <cxxabi.h>
+#include <typeinfo>
 
 //! Print the full name of a type, including cv and reference part
 template <typename T>
@@ -24,4 +25,9 @@ std::string type_name() {
 		result += " &";
 	}
 	return result;
+}
+
+template <typename T>
+std::string type_name(T &&) {
+	return type_name<T &&>();
 }
