@@ -86,6 +86,8 @@ constexpr auto operator+(meta_int<T, A>, meta_string<T, B...>) -> meta_string<T,
 template <typename T, T... Chars>
 struct meta_string {
 	
+	typedef T char_type;
+	
 	static constexpr std::size_t _length = sizeof...(Chars);
 	
 	typedef meta_int<bool, false> False;
@@ -202,6 +204,43 @@ std::ostream & operator<<(std::ostream & os, meta_int<T, Value>) {
 
 // --------------------------------------------------------------------------
 
+template <
+	typename Wrapper,
+	typename Prefix = meta_string<
+		typename std::decay<decltype(*Wrapper::value)>::type
+	>,
+	std::size_t Remaining = sizeof(Wrapper::value) / sizeof(*Wrapper::value)
+>
+struct to_meta_string {
+private:
+	static constexpr std::size_t length = sizeof(Wrapper::value) / sizeof(*Wrapper::value);
+	typedef meta_int<typename Prefix::char_type, Wrapper::value[length - Remaining]> next_char;
+public:
+	typedef typename to_meta_string<
+		Wrapper,
+		decltype(Prefix() + next_char()),
+		Remaining - 1
+	>::type type;
+};
+
+template <typename Wrapper, typename Prefix>
+struct to_meta_string<Wrapper, Prefix, 0> {
+	typedef Prefix type;
+};
+
+#define STRING_WRAPPER_NAME(name) raw_ ## name ## _wrapper
+
+#define DECLARE_STRING_WRAPPER(name, str) \
+struct STRING_WRAPPER_NAME(name) { \
+	static constexpr char value[] = str; \
+};
+
+#define DECLARE_STRING(name, str) \
+	DECLARE_STRING_WRAPPER(name, str) \
+	static constexpr typename to_meta_string<STRING_WRAPPER_NAME(name)>::type name { };
+
+// --------------------------------------------------------------------------
+
 #include <boost/preprocessor/repetition/repeat.hpp>
 #include <boost/preprocessor/punctuation/comma_if.hpp>
 #include <boost/preprocessor/config/limits.hpp>
@@ -218,6 +257,8 @@ std::ostream & operator<<(std::ostream & os, meta_int<T, Value>) {
 
 #include "type_name.hpp"
 
+DECLARE_STRING(long_string, "This string can be however long you want it to be!")
+
 int main() {
 	
 	auto str = S("Hello") + S(" ") + S("World") + S("!");
@@ -228,6 +269,11 @@ int main() {
 	
 	std::cout << "\"" << str << "\" \"" << modified
 		<< "\" = " << str.length() << " / " << BOOST_PP_LIMIT_REPEAT << std::endl;
+	
+	auto mixed = long_string + S(" Or can it?");
+	std::cout << type_name(mixed) << std::endl;
+	
+	std::cout << '"' << mixed << '"' << std::endl;
 	
 	return 0;
 }
