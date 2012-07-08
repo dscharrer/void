@@ -58,15 +58,9 @@ action() {
 			then "${@}" > /dev/null && return
 			else "${@}" && return
 		fi
-		query "${red}$1 failed! ${white}Quit?${reset}" 'N' && exit 1
-		query "${white}Retry?${reset}" 'Y' || return
+		query "${red}$1 failed! ${white}Retry?${reset}" 'Y' || return
 	done
 }
-
-abort() {
-	echo "${red}Aborted!${reset}" ; exit 1
-}
-trap "abort" SIGHUP SIGINT SIGTERM
 
 step 'Syncing Portage Tree'
 action emerge --sync --quiet
