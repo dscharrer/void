@@ -23,4 +23,4 @@ color brightblue "^# Your branch is ahead of .+$"
 
 # diff files
 # meh - cannot match against \t ... should be: ^#\t.*$
-color cyan "^#[^ a-zA-Z0-9][^ ].*$"
+color cyan "^#[^ a-zA-Z0-9#][^ ].*$"
