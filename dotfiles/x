@@ -1,0 +1,5 @@
+#!/bin/sh
+
+mode=$(xrandr | grep -P '( |\*)\+' | sed 's/^ *\([^ ]*\).*/\1/')
+
+xrandr -s $mode

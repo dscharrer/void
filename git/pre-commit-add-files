@@ -16,3 +16,10 @@ if [ "$untracked" != "" ] ; then
 	echo "Use the ${white}--no-verify${reset} option to commit anyway."
 	exit 1
 fi
+
+# curse you, KDevelop
+check="$(grep -rP --color 'boost\/concept_check\.hpp' "src" "tools")"
+if [ "$check" != '' ] ; then
+	echo "$red$check$reset"
+	exit 1
+fi

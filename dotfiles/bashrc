@@ -1,0 +1,66 @@
+# This file is sourced by all *interactive* bash shells on startup,
+# including some apparently interactive shells such as scp and rcp
+# that can't tolerate any output.  So make sure this doesn't display
+# anything or bad things will happen !
+
+
+# Test for an interactive shell.  There is no need to set anything
+# past this point for scp and rcp, and it's important to refrain from
+# outputting anything in those cases.
+if [[ $- != *i* ]] ; then
+	# Shell is non-interactive.  Be done now!
+	return
+fi
+
+
+# Put your fun stuff here.
+
+alias ☭='echo "Hello there, comrade!"'
+alias ?='grep -P'
+alias ??='? -r'
+
+r() {
+	if [ $# = 0 ] ; then
+		su - ; return
+	fi
+	command=""
+	for arg in "$@" ; do
+		arg="${arg//\\/\\\\}"
+		arg="${arg//\"/\\\"}"
+		command="$command \"$arg\""
+	done
+	su -c "$command";
+}
+
+enter() {
+	mkdir -p "$1" && cd "$1"
+}
+
+gfr() {
+	branch="$1"
+	[ "$branch" = "" ] && branch="$(git branch | grep '*' | sed 's/* //')"
+	[ "$branch" = "" ] && return 1
+	[ "$branch" = "(no branch)" ] && echo "not on a branch!" && return 1
+	remote="$2"
+	[ "$remote" = "" ] && remote='origin'
+	echo "Rebasing onto $remote/$branch."
+	git fetch "$remote" && git rebase -v "$remote/$branch" "${@:3}"
+}
+
+HISTSIZE=10000
+
+PS1="\[\033[01;32m\]\u@\h\[\033[01;34m\] \W \$\[\033[00m\] "
+
+ECHANGELOG_USER="Daniel Scharrer <daniel@constexpr.org>"
+
+umask 077
+
+alias p='aoss postal2awp'
+
+alias mplayer2='mplayer2 -msgcolor'
+
+steam() {
+	cd ~/Games/Steam
+	export SDL_AUDIODRIVER=alsa
+	./steamwm.cpp ./steam.sh
+}

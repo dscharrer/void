@@ -1,0 +1,30 @@
+#!/bin/sh
+
+red='' ; white='' ; reset=''
+if [ -t 1 ] && [ `tput colors` != -1 ] ; then
+        red=`printf '\033[1;31m'`
+        white=`printf '\033[1;37m'`
+        reset=`printf '\033[0m'`
+fi
+
+cd "$(dirname "$(which "$0")")/dotfiles"
+
+for f in * ; do
+	dotfile="$HOME/.$f"
+	t="$(pwd)/$f"
+	if [ -L "$dotfile" ] ; then
+		if [ "$(readlink "$dotfile")" != "$t" ] ; then
+			ot="$(readlink "$dotfile")"
+			rm "$dotfile"
+			ln -s "$t" "$dotfile"
+			echo "${white}Updated .$f${reset} -> $ot => $t"
+		else
+			echo "Skipped .$f -> $(readlink "$dotfile")"
+		fi
+	else if [ -e "$dotfile" ] ; then
+		echo "${red}Skipped .$f (exists but is not a symlink)${reset}"
+	else
+		ln -s "$t" "$dotfile"
+		echo "${white}Created .$f${reset} -> $t"
+	fi ; fi
+done
