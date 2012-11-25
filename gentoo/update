@@ -104,8 +104,7 @@ action revdep-rebuild -- --ask --verbose --quiet-build --keep-going
 
 if has prelink ; then
 	step 'Pre-Linking'
-	# Not an action because it currently fails
-	prelink -amR > /dev/null
+	action prelink -amR > /dev/null
 fi
 
 step 'Mooing'
