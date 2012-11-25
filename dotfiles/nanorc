@@ -1,1 +1,1 @@
-include "~/.void/nano/gitcommit.nanorc"
+include "~/.void/git/commit.nanorc"
