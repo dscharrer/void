@@ -60,7 +60,9 @@ alias p='aoss postal2awp'
 alias mplayer2='mplayer2 -msgcolor'
 
 steam() {
-	cd ~/Games/Steam
+	local steamdir="$HOME/Games/Steam"
+	cd "$steamdir"
 	export SDL_AUDIODRIVER=alsa
+	LD_LIBRARY_PATH="$steamdir/missinglibs:$LD_LIBRARY_PATH"
 	./steamwm.cpp ./steam.sh
 }
