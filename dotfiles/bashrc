@@ -21,7 +21,8 @@ fi
 
 alias ☭='echo "Hello there, comrade!"'
 alias ?='grep -P'
-alias ??='? -r'
+alias ??='grep -rP'
+alias ???='grep -rPzo'
 
 r() {
 	if [ $# = 0 ] ; then
