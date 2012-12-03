@@ -185,3 +185,27 @@ This will only set the keymap for the current session. To select it permanently,
 This might not work if your desktop environment also sets the keymap. For KDE 4 edit `~/.kde4/share/config/kxkbrc` and change the line containing `LayoutList` to
 
     LayoutList=us_de
+
+# Custom compose sequenes
+
+The `XCompose` provides a few custom compose sequences:
+
+| Symbol | Unicode                | Sequences                               |
+| ------ | ---------------------- | --------------------------------------- |
+| ∞      | `U+221E`               | `inf`                                   |
+| π      | `U+03C0`               | `pi`                                    |
+| Ω      | `U+2126`               | `ohm`                                   |
+| √      | `U+221A`               | `sqrt`                                  |
+| ಠ_ಠ    | `U+0CA0 U+005F U+0CA0` | `lod`                                   |
+| ಠ◡ಠ    | `U+0CA0 U+005F U+0CA0` | `slod`                                  |
+| ☢      | `U+2622`               | `rad`                                   |
+| ⚛      | `U+269B`               | `atom`                                  |
+| ☣      | `U+2623`               | `bio`                                   |
+| ☠      | `U+2620`               | `skull`                                 |
+| ✓      | `U+2713`               | `yes`                                   |
+| ✗      | `U+2717`               | `no`                                    |
+| ℃      | `U+2103`               | `dc`                                    |
+
+To enable them, link/copy the file to `~/.XCompose`.
+
+gtk apps like to do their own thing as usual so youll need to force them by setting `GTK_IM_MODULE=xim` (for example in `~/.profile`)

@@ -3,6 +3,10 @@
 # that can't tolerate any output.  So make sure this doesn't display
 # anything or bad things will happen !
 
+umask 077
+
+export GTK_IM_MODULE=xim # force gtk to use the standard compose sequences
+export ECHANGELOG_USER="Daniel Scharrer <daniel@constexpr.org>"
 
 # Test for an interactive shell.  There is no need to set anything
 # past this point for scp and rcp, and it's important to refrain from
@@ -50,10 +54,6 @@ gfr() {
 HISTSIZE=10000
 
 PS1="\[\033[01;32m\]\u@\h\[\033[01;34m\] \W \$\[\033[00m\] "
-
-ECHANGELOG_USER="Daniel Scharrer <daniel@constexpr.org>"
-
-umask 077
 
 alias p='aoss postal2awp'
 

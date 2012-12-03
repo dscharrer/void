@@ -1,0 +1,17 @@
+# Import default rules from the system Compose file
+include "%L"
+
+# Custom definitions
+<Multi_key> <i> <n> <f>         : "∞"
+<Multi_key> <p> <i>             : "π"
+<Multi_key> <o> <h> <m>         : "Ω"
+<Multi_key> <s> <q> <r> <t>     : "√"
+<Multi_key> <l> <o> <d>         : "ಠ_ಠ"  # look of disapproval
+<Multi_key> <s> <l> <o> <d>     : "ಠ◡ಠ"  # smiling look of disapproval
+<Multi_key> <r> <a> <d>         : "☢"
+<Multi_key> <a> <t> <o> <m>     : "⚛"
+<Multi_key> <b> <i> <o>         : "☣"
+<Multi_key> <s> <k> <u> <l> <l> : "☠"
+<Multi_key> <y> <e> <s>         : "✓"
+<Multi_key> <n> <o>             : "✗"
+<Multi_key> <d> <c>             : "℃"
