@@ -205,6 +205,7 @@ The `XCompose` provides a few custom compose sequences:
 | ✓      | `U+2713`               | `yes`                                   |
 | ✗      | `U+2717`               | `no`                                    |
 | ℃      | `U+2103`               | `dc`                                    |
+| ⚛⃝      | `U+269B U+20DD`        | `aperture`                              |
 
 To enable them, link/copy the file to `~/.XCompose`.
 
