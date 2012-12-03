@@ -197,7 +197,7 @@ The `XCompose` file provides a few custom compose sequences:
 | Ω      | `U+2126`               | `ohm`                                   |
 | √      | `U+221A`               | `sqrt`                                  |
 | ಠ_ಠ    | `U+0CA0 U+005F U+0CA0` | `lod`                                   |
-| ಠ◡ಠ    | `U+0CA0 U+005F U+0CA0` | `slod`                                  |
+| ಠ◡ಠ    | `U+0CA0 U+25E1 U+0CA0` | `slod`                                  |
 | ☢      | `U+2622`               | `rad`                                   |
 | ⚛      | `U+269B`               | `atom`                                  |
 | ☣      | `U+2623`               | `bio`                                   |
