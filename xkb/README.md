@@ -188,7 +188,7 @@ This might not work if your desktop environment also sets the keymap. For KDE 4 
 
 # Custom compose sequenes
 
-The `XCompose` provides a few custom compose sequences:
+The `XCompose` file provides a few custom compose sequences:
 
 | Symbol | Unicode                | Sequences                               |
 | ------ | ---------------------- | --------------------------------------- |
@@ -207,6 +207,6 @@ The `XCompose` provides a few custom compose sequences:
 | ℃      | `U+2103`               | `dc`                                    |
 | ⚛⃝      | `U+269B U+20DD`        | `aperture`                              |
 
-To enable them, link/copy the file to `~/.XCompose`.
+To enable them, link/copy the `XCompose` file to `~/.XCompose`.
 
 gtk apps like to do their own thing as usual so youll need to force them by setting `GTK_IM_MODULE=xim` (for example in `~/.profile`)
