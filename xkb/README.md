@@ -196,6 +196,10 @@ The `XCompose` file provides a few custom compose sequences:
 | π      | `U+03C0`               | `pi`                                    |
 | Ω      | `U+2126`               | `ohm`                                   |
 | √      | `U+221A`               | `sqrt`                                  |
+| ∩      | `U+2229`               | `inter`                                 |
+| ⋂      | `U+22C2`               | `Inter` `INTER`                         |
+| ∪      | `U+222A`               | `union`                                 |
+| ⋃      | `U+22C3`               | `Union` `UNION`                         |
 | ಠ_ಠ    | `U+0CA0 U+005F U+0CA0` | `lod`                                   |
 | ಠ◡ಠ    | `U+0CA0 U+25E1 U+0CA0` | `slod`                                  |
 | ☢      | `U+2622`               | `rad`                                   |
