@@ -200,6 +200,8 @@ The `XCompose` file provides a few custom compose sequences:
 | ⋂      | `U+22C2`               | `Inter` `INTER`                         |
 | ∪      | `U+222A`               | `union`                                 |
 | ⋃      | `U+22C3`               | `Union` `UNION`                         |
+| ∈      | `U+2208`               | `ele`                                   |
+| ∉      | `U+2209`               | `nele`                                  |
 | ಠ_ಠ    | `U+0CA0 U+005F U+0CA0` | `lod`                                   |
 | ಠ◡ಠ    | `U+0CA0 U+25E1 U+0CA0` | `slod`                                  |
 | ☢      | `U+2622`               | `rad`                                   |
@@ -213,4 +215,4 @@ The `XCompose` file provides a few custom compose sequences:
 
 To enable them, link/copy the `XCompose` file to `~/.XCompose`.
 
-gtk apps like to do their own thing as usual so youll need to force them by setting `GTK_IM_MODULE=xim` (for example in `~/.profile`)
+gtk apps like to do their own thing as usual so youll need to force them by setting `GTK_IM_MODULE=xim` (for example in `~/.bashrc`)
