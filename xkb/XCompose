@@ -33,5 +33,6 @@ include "%L"
 <Multi_key> <a> <n> <d>         : "∧"
 <Multi_key> <A> <n> <d>         : "⋀"
 <Multi_key> <A> <N> <D>         : "⋀"
+<Multi_key> <n> <e> <q>         : "≠"
 
 
