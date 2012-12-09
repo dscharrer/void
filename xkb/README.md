@@ -214,7 +214,7 @@ The `XCompose` file provides a few custom compose sequences:
 | ℚ      | `U+211A`               | `rational`                              |
 | ℤ      | `U+2124`               | `integer`                               |
 | ℕ      | `U+2115`               | `naural`                                |
-| ℂ      | `U+2102`               | `imaginary`                             |
+| ℂ      | `U+2102`               | `complex`                               |
 | ಠ_ಠ    | `U+0CA0 U+005F U+0CA0` | `lod`                                   |
 | ಠ◡ಠ    | `U+0CA0 U+25E1 U+0CA0` | `slod`                                  |
 | ☢      | `U+2622`               | `rad`                                   |

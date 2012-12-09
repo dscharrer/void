@@ -38,7 +38,7 @@ include "%L"
 <Multi_key> <r> <a> <t> <i> <o> <n> <a> <l>     : "ℚ"
 <Multi_key> <i> <n> <t> <e> <g> <e> <r>         : "ℤ"
 <Multi_key> <n> <a> <t> <u> <r> <a> <l>         : "ℕ"
-<Multi_key> <i> <m> <a> <g> <i> <n> <a> <r> <y> : "ℂ"
+<Multi_key> <c> <o> <m> <p> <l> <e> <x>         : "ℂ"
 <Multi_key> <w> <a> <r> <n>                     : "⚠"
 <Multi_key> <i> <i> <n> <f> <o>                 : "ℹ"
 
