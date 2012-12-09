@@ -205,6 +205,10 @@ The `XCompose` file provides a few custom compose sequences:
 | ∃      | `U+2203`               | `exist`                                 |
 | ∄      | `U+2204`               | `nexist`                                |
 | ∀      | `U+2200`               | `forall`                                |
+| ∨      | `U+2228`               | `lor`                                   |
+| ⋁      | `U+22C1`               | `Lor` `LOR`                             |
+| ∧      | `U+2227`               | `and`                                   |
+| ⋀      | `U+22C0`               | `And` `AND`                             |
 | ಠ_ಠ    | `U+0CA0 U+005F U+0CA0` | `lod`                                   |
 | ಠ◡ಠ    | `U+0CA0 U+25E1 U+0CA0` | `slod`                                  |
 | ☢      | `U+2622`               | `rad`                                   |

@@ -27,5 +27,11 @@ include "%L"
 <Multi_key> <e> <x> <i> <s> <t> : "∃"
 <Multi_key> <n> <e> <x> <i> <s> <t> : "∄"
 <Multi_key> <f> <o> <r> <a> <l> <l> : "∀"
+<Multi_key> <l> <o> <r>         : "∨"
+<Multi_key> <L> <o> <r>         : "⋁"
+<Multi_key> <L> <O> <R>         : "⋁"
+<Multi_key> <a> <n> <d>         : "∧"
+<Multi_key> <A> <n> <d>         : "⋀"
+<Multi_key> <A> <N> <D>         : "⋀"
 
 
