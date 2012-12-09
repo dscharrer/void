@@ -210,6 +210,11 @@ The `XCompose` file provides a few custom compose sequences:
 | ∧      | `U+2227`               | `and`                                   |
 | ⋀      | `U+22C0`               | `And` `AND`                             |
 | ≠      | `U+2260`               | `neq`                                   |
+| ℝ      | `U+211D`               | `real`                                  |
+| ℚ      | `U+211A`               | `rational`                              |
+| ℤ      | `U+2124`               | `integer`                               |
+| ℕ      | `U+2115`               | `naural`                                |
+| ℂ      | `U+2102`               | `imaginary`                             |
 | ಠ_ಠ    | `U+0CA0 U+005F U+0CA0` | `lod`                                   |
 | ಠ◡ಠ    | `U+0CA0 U+25E1 U+0CA0` | `slod`                                  |
 | ☢      | `U+2622`               | `rad`                                   |
