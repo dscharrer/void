@@ -202,6 +202,9 @@ The `XCompose` file provides a few custom compose sequences:
 | ⋃      | `U+22C3`               | `Union` `UNION`                         |
 | ∈      | `U+2208`               | `ele`                                   |
 | ∉      | `U+2209`               | `nele`                                  |
+| ∃      | `U+2203`               | `exist`                                 |
+| ∄      | `U+2204`               | `nexist`                                |
+| ∀      | `U+2200`               | `forall`                                |
 | ಠ_ಠ    | `U+0CA0 U+005F U+0CA0` | `lod`                                   |
 | ಠ◡ಠ    | `U+0CA0 U+25E1 U+0CA0` | `slod`                                  |
 | ☢      | `U+2622`               | `rad`                                   |
