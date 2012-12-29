@@ -26,6 +26,7 @@ self="$(readlink -f "$(which "$0")")"
 out="$(dirname "$self")/build"
 name="$(basename "$self" .c).so"
 
+#// Select the architectures on multilib systems
 case "$(uname -m)" in
 	*86*)
 		arches=''
@@ -61,7 +62,7 @@ for arch in $arches ; do
 done
 
 #// Run the executable
-export LD_PRELOAD="$name"
+export LD_PRELOAD="$name:$LD_PRELOAD"
 [ $# = 0 ] || exec "$@"
 
 
