@@ -4,7 +4,7 @@
 #// actively grabbing the keyboard.
 #//
 #//
-#// Requires: gcc with support for x86 targets, Xlib + headers
+#// Requires: gcc, Xlib + headers
 #//
 #//
 #// Use:
@@ -26,24 +26,43 @@ self="$(readlink -f "$(which "$0")")"
 out="$(dirname "$self")/build"
 name="$(basename "$self" .c).so"
 
+case "$(uname -m)" in
+	*86*)
+		arches=''
+		[ -f '/lib/ld-linux.so.2' ]          && arches="$arches 32"
+		[ -f '/lib64/ld-linux-x86-64.so.2' ] && arches="$arches 64"
+		;;
+	*)
+		arches='default'
+		;;
+esac
 
-#// Compile the LD_PRELOAD library
-for arch in 32 64 ; do
-	dir="$out/$arch"
+
+#// Compile the LD_PRELOAD libraries
+for arch in $arches ; do
+	if [ $arch = default ] ; then
+		dir="$out"
+		flag=''
+		bitness=''
+	else
+		dir="$out/$arch"
+		flag="-m$arch"
+		bitness="$arch-bit "
+	fi
 	lib="$dir/$name"
 	mkdir -p "$dir"
 	if [ "$self" -nt "$lib" ] ; then
-		echo "Compiling $arch-bit $name..."
-		gcc -shared -fPIC -m$arch "$self" -o "$lib" \
+		echo "Compiling ${bitness}${name}..."
+		gcc -shared -fPIC $flag "$self" -o "$lib" \
 		    -lX11 -static-libgcc -O3 -Wall -Wextra \
-			|| echo "Warning: could not compile $arch-bit library"
+			|| echo "Warning: could not compile ${bitness}library"
 	fi
+	export LD_LIBRARY_PATH="$dir:$LD_LIBRARY_PATH"
 done
 
 #// Run the executable
-export LD_LIBRARY_PATH="$out/32:$out/64"
 export LD_PRELOAD="$name"
-[ -z "$1" ] || exec "$@"
+[ $# = 0 ] || exec "$@"
 
 
 exit
