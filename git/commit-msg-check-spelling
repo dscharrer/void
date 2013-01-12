@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# git commit-msg hook to check spelling using hunspell
+
+red='' ; white='' ; reset=''
+if [ -t 1 ] && [ `tput colors` != -1 ] ; then
+	red=`printf '\033[1;31m'`
+	white=`printf '\033[1;37m'`
+	reset=`printf '\033[0m'`
+fi
+
+cat "$1" \
+	| grep -Pv '^#' \
+	| hunspell \
+	| grep -P '^\&' \
+	| sed "s/\& \(.*\) .* .*\: \(.*\)/sp?: ${red}\\1${reset}: ${white}\\2${reset}/"
