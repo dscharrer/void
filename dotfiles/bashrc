@@ -73,3 +73,9 @@ yplay () {
 }
 
 alias nokeygrab=~/.void/x11/nokeygrab.c
+
+hunspell-add() {
+	for word in "$@" ; do
+		echo "$word" >> ~/.hunspell_en_US
+	done
+}
