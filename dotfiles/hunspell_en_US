@@ -11,3 +11,7 @@ templating
 refactor
 UTF
 endian
+inline
+iconv
+FreeBSD
+const
