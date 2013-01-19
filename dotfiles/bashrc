@@ -24,6 +24,10 @@ alias ?='grep -P'
 alias ??='grep -rP'
 alias ???='grep -rPzo'
 
+??k() {
+	?? "(?:^|[^a-zA-Z0-9_])$1(?:[^a-zA-Z0-9_]|$)" "${@:2}"
+}
+
 r() {
 	if [ $# = 0 ] ; then
 		su - ; return
