@@ -6,7 +6,7 @@ syntax "patch" ".git/COMMIT_EDITMSG$"
 color brightred "^.{72,}.+$"
 
 # KDE commit hook keywords, see: http://community.kde.org/Sysadmin/GitKdeOrgManual#Commit_hook_keywords
-color yellow "^(Merge|Conflicts|Fixes|See|See also|This reverts)(:| (commit [0-9a-f]{5,}|((bug|issue|crash)( report)?|(feature|enhancement)( request)?) #[0-9]+))"
+color yellow "^(Merge|Conflicts|Fixes|Implements|See|See also|This reverts)(:| (commit [0-9a-f]{5,}|((bug|issue|crash)( report)?|(feature|enhancement)( request)?) #[0-9]+))"
 
 color green "((bug|issue|crash)( report)?|(feature|enhancement)( request)?) #[0-9]+"
 color green "commit [0-9a-f]{5,}"
