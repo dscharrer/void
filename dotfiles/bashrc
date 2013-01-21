@@ -8,6 +8,8 @@ umask 077
 export GTK_IM_MODULE=xim # force gtk to use the standard compose sequences
 export ECHANGELOG_USER="Daniel Scharrer <daniel@constexpr.org>"
 
+export PATH="$HOME/.void/bin:$HOME/Games/bin:$PATH"
+
 # Test for an interactive shell.  There is no need to set anything
 # past this point for scp and rcp, and it's important to refrain from
 # outputting anything in those cases.
@@ -16,70 +18,16 @@ if [[ $- != *i* ]] ; then
 	return
 fi
 
-
 # Put your fun stuff here.
 
 alias ☭='echo "Hello there, comrade!"'
 alias ?='grep -P'
 alias ??='grep -rP'
 alias ???='grep -rPzo'
-
-??k() {
-	?? "(?:^|[^a-zA-Z0-9_])$1(?:[^a-zA-Z0-9_]|$)" "${@:2}"
-}
-
-r() {
-	if [ $# = 0 ] ; then
-		su - ; return
-	fi
-	command=""
-	for arg in "$@" ; do
-		arg="${arg//\\/\\\\}"
-		arg="${arg//\"/\\\"}"
-		command="$command \"$arg\""
-	done
-	su -c "$command";
-}
-
-enter() {
-	mkdir -p "$1" && cd "$1"
-}
-
-gfr() {
-	branch="$1"
-	[ "$branch" = "" ] && branch="$(git branch | grep '*' | sed 's/* //')"
-	[ "$branch" = "" ] && return 1
-	[ "$branch" = "(no branch)" ] && echo "not on a branch!" && return 1
-	remote="$2"
-	[ "$remote" = "" ] && remote='origin'
-	echo "Rebasing onto $remote/$branch."
-	git fetch "$remote" && git rebase -v "$remote/$branch" "${@:3}"
-}
+alias p='aoss postal2awp'
+alias mplayer2='mplayer2 -msgcolor'
+alias nokeygrab=~/.void/x11/nokeygrab.c
+enter() { mkdir -p "$1" && cd "$1" }
 
 HISTSIZE=10000
-
 PS1="\[\033[01;32m\]\u@\h\[\033[01;34m\] \W \$\[\033[00m\] "
-
-alias p='aoss postal2awp'
-
-alias mplayer2='mplayer2 -msgcolor'
-
-steam() {
-	local steamdir="$HOME/Games/Steam"
-	cd "$steamdir"
-	export SDL_AUDIODRIVER=alsa
-	LD_LIBRARY_PATH="$steamdir/missinglibs:$LD_LIBRARY_PATH"
-	./steamwm.cpp ./steam.sh "$@"
-}
-
-yplay () {
-	mplayer2 -cache 200000 -cache-min 1 "$(youtube-dl -g "$1")" "${@:2}"
-}
-
-alias nokeygrab=~/.void/x11/nokeygrab.c
-
-hunspell-add() {
-	for word in "$@" ; do
-		echo "$word" >> ~/.hunspell_en_US
-	done
-}

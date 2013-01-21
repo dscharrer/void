@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# Fetch new commits and rebase a git repository
+# Usage: gfr [<branch>  [<remote> [git-rebase-args...]]]
+
+branch="$1"
+[ "$branch" = "" ] && branch="$(git branch | grep '*' | sed 's/* //')"
+[ "$branch" = "" ] && return 1
+[ "$branch" = "(no branch)" ] && echo "not on a branch!" && return 1
+remote="$2"
+[ "$remote" = "" ] && remote='origin'
+echo "Rebasing onto $remote/$branch."
+git fetch "$remote" && git rebase -v "$remote/$branch" "${@:3}"

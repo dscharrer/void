@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Add words to the hunsepll user dictionary
+# Usage: hunspell-add <word> [<word> ...]
+
+for word in "$@" ; do
+	echo "$word" >> ~/.hunspell_en_US
+done

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Run a command with arguments as root - without manually escaping args and without sudo
+# Usage: r <command> [<args>
+# Usage: r
+# The second form calls su -
+
+if [ $# = 0 ] ; then
+	su - ; return
+fi
+command=""
+for arg in "$@" ; do
+	arg="${arg//\\/\\\\}"
+	arg="${arg//\"/\\\"}"
+	command="$command \"$arg\""
+done
+su -c "$command";
