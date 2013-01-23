@@ -31,4 +31,4 @@ while IFS= read -r -d '' file; do
 	flags+=("$file")
 done < <(find "${paths[@]}" -type f -print0)
 
-mplayer2 "${flags[@]}"
+exec mplayer2 "${flags[@]}"

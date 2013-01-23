@@ -4,10 +4,10 @@
 # Usage: gfr [<branch>  [<remote> [git-rebase-args...]]]
 
 branch="$1"
-[ "$branch" = "" ] && branch="$(git branch | grep '*' | sed 's/* //')"
-[ "$branch" = "" ] && exit 1
-[ "$branch" = "(no branch)" ] && echo "not on a branch!" && exit 1
+[ -z "$branch" ] && branch="$(git branch | grep '*' | sed 's/* //')"
+[ -z "$branch" ] && exit 1
+[ "$branch" = '(no branch)' ] && echo "not on a branch!" && exit 1
 remote="$2"
-[ "$remote" = "" ] && remote='origin'
+[ -z "$remote" ] && remote='origin'
 echo "Rebasing onto $remote/$branch."
-git fetch "$remote" && git rebase -v "$remote/$branch" "${@:3}"
+exec git fetch "$remote" && git rebase -v "$remote/$branch" "${@:3}"

@@ -6,7 +6,7 @@
 # The second form calls su -
 
 if [ $# = 0 ] ; then
-	su - ; exit
+	exec su -
 fi
 command=""
 for arg in "$@" ; do
@@ -14,4 +14,4 @@ for arg in "$@" ; do
 	arg="${arg//\"/\\\"}"
 	command="$command \"$arg\""
 done
-su -c "$command";
+exec su -c "$command";

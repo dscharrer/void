@@ -3,4 +3,4 @@
 # Grep recursively for a C/C++ keyword 
 # Usage: ??k <keyword> [grep-args...]
 
-grep -rP "(?:^|[^a-zA-Z0-9_])$1(?:[^a-zA-Z0-9_]|$)" "${@:2}"
+exec grep -rP "(?:^|[^a-zA-Z0-9_])$1(?:[^a-zA-Z0-9_]|$)" "${@:2}"
