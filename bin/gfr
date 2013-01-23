@@ -5,8 +5,8 @@
 
 branch="$1"
 [ "$branch" = "" ] && branch="$(git branch | grep '*' | sed 's/* //')"
-[ "$branch" = "" ] && return 1
-[ "$branch" = "(no branch)" ] && echo "not on a branch!" && return 1
+[ "$branch" = "" ] && exit 1
+[ "$branch" = "(no branch)" ] && echo "not on a branch!" && exit 1
 remote="$2"
 [ "$remote" = "" ] && remote='origin'
 echo "Rebasing onto $remote/$branch."

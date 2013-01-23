@@ -6,7 +6,7 @@
 # The second form calls su -
 
 if [ $# = 0 ] ; then
-	su - ; return
+	su - ; exit
 fi
 command=""
 for arg in "$@" ; do
