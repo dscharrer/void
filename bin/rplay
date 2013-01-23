@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Play files/directories in random order, looped forever
+# Usage: rplay [mplayer2-flags] paths...
+
+play -shuffle -loop 0 "$@"
