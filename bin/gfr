@@ -10,4 +10,4 @@ branch="$1"
 remote="$2"
 [ -z "$remote" ] && remote='origin'
 echo "Rebasing onto $remote/$branch."
-exec git fetch "$remote" && git rebase -v "$remote/$branch" "${@:3}"
+git fetch "$remote" && git rebase -v "$remote/$branch" "${@:3}"
