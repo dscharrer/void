@@ -3,6 +3,8 @@
 # that can't tolerate any output.  So make sure this doesn't display
 # anything or bad things will happen !
 
+. /etc/profile
+
 umask 077
 
 export GTK_IM_MODULE=xim # force gtk to use the standard compose sequences
@@ -28,6 +30,11 @@ alias p='aoss postal2awp'
 alias mplayer2='mplayer2 -msgcolor'
 alias nokeygrab=~/.void/x11/nokeygrab.c
 enter() { mkdir -p "$1" && cd "$1"; }
+alias cdg='cd "$(git rev-parse --show-toplevel)"'
 
 HISTSIZE=10000
 PS1="\[\033[01;32m\]\u@\h\[\033[01;34m\] \W \$\[\033[00m\] "
+
+if [ $TERM = "xterm" ] ; then
+    export TERM=xterm-256color
+fi
