@@ -41,4 +41,6 @@ include "%L"
 <Multi_key> <c> <o> <m> <p> <l> <e> <x>         : "ℂ"
 <Multi_key> <w> <a> <r> <n>                     : "⚠"
 <Multi_key> <i> <i> <n> <f> <o>                 : "ℹ"
+<Multi_key> <u> <p>                             : "↑"
+<Multi_key> <asciicircum> <asciicircum>         : "↑"
 
