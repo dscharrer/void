@@ -43,4 +43,5 @@ include "%L"
 <Multi_key> <i> <i> <n> <f> <o>                 : "ℹ"
 <Multi_key> <u> <p>                             : "↑"
 <Multi_key> <asciicircum> <asciicircum>         : "↑"
+<Multi_key> <b> <t> <c>                         : "฿"
 

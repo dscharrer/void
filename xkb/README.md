@@ -227,6 +227,8 @@ The `XCompose` file provides a few custom compose sequences:
 | ⚛⃝      | `U+269B U+20DD`        | `aperture`                              |
 | ⚠      | `U+26A0`               | `warn`                                  |
 | ℹ      | `U+2139`               | `iinfo`                                 |
+| ↑      | `U+2191`               | `up` `^^`                               |
+| ฿      | `U+0E3F`               | `btc`                                   |
 
 To enable them, link/copy the `XCompose` file to `~/.XCompose`.
 
