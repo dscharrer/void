@@ -1,0 +1,12 @@
+#!/bin/sh
+
+tempfile="$(mktemp)"
+
+for file ; do
+	[ -z "$file" ] && continue
+	osize="$(du -h "$file")" ; osize="${osize%%	*}" ; osize="${osize# *}"
+	gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$tempfile" "$file"
+	mv "$tempfile" "$file"
+	nsize="$(du -h "$file")" ; nsize="${nsize%%	*}" ; nsize="${nsize# *}"
+	printf "%s:  %s -> %s\n" "$file" "$osize" "$nsize"
+done
