@@ -32,48 +32,50 @@ The following table lists the modified keys:
 
 Dead keys don't print anything, but instead modify the next input by composing the symbol and key if possible.
 
-## Fraktur
+## Fraktur and Script
 
-Additionally, the key map changes `AltGr`+`RightWin` to switch letters to Fraktur symbols and digits to double-stroked digits. You can also use the `RightWin` without `AltGr` key to shift to Fraktur symbols without locking.
+Additionally, the key map changes `RightWin` to switch letters to Fraktur symbols and digits to double-stroked digits. You can use `Shift` with `RightWin` to lock to Fraktur symbols.
 
-| Key      | Caps | Caps + Shift |
-|--------- | ---- | ------------ |
-| `a` `A`  | 𝖆    | 𝕬             |
-| `b` `B`  | 𝖇    | 𝕭             |
-| `c` `C`  | 𝖈    | 𝕮             |
-| `d` `D`  | 𝖉    | 𝕯             |
-| `e` `E`  | 𝖊    | 𝕰             |
-| `f` `F`  | 𝖋    | 𝕱             |
-| `g` `G`  | 𝖌    | 𝕲             |
-| `h` `H`  | 𝖍    | 𝕳             |
-| `i` `I`  | 𝖎    | 𝕴             |
-| `j` `J`  | 𝖏    | 𝕵             |
-| `k` `K`  | 𝖐    | 𝕶             |
-| `l` `L`  | 𝖑    | 𝕷             |
-| `m` `M`  | 𝖒    | 𝕸             |
-| `n` `N`  | 𝖓    | 𝕹             |
-| `o` `O`  | 𝖔    | 𝕺             |
-| `p` `P`  | 𝖕    | 𝕻             |
-| `q` `Q`  | 𝖖    | 𝕼             |
-| `r` `R`  | 𝖗    | 𝕽             |
-| `s` `S`  | 𝖘    | 𝕾             |
-| `t` `T`  | 𝖙    | 𝕿             |
-| `u` `U`  | 𝖚    | 𝖀             |
-| `v` `V`  | 𝖛    | 𝖁             |
-| `w` `W`  | 𝖜    | 𝖂             |
-| `x` `X`  | 𝖝    | 𝖃             |
-| `y` `Y`  | 𝖞    | 𝖄             |
-| `z` `Z`  | 𝖟    | 𝖅             |
-| `0` `)`  | 𝟘    | )             |
-| `1` `!`  | 𝟙    | !             |
-| `2` `@`  | 𝟚    | @             |
-| `3` `#`  | 𝟛    | #             |
-| `4` `$`  | 𝟜    | $             |
-| `5` `%`  | 𝟝    | %             |
-| `6` `^`  | 𝟞    | ^             |
-| `7` `&`  | 𝟟    | &             |
-| `8` `*`  | 𝟠    | *             |
-| `9` `(`  | 𝟡    | (             |
+Further, once in Fraktur mode `AltGr` changes letters once again, this time to to script. Again, you can use `Shift` with `AltGr` to lock to script symbols.
+
+| Key      | RightWin | RightWin + AltGr |
+|--------- | -------- | ---------------- |
+| `a` `A`  | 𝖆 𝕬      | 𝓪 𝓐
+| `b` `B`  | 𝖇 𝕭      | 𝓫 𝓑
+| `c` `C`  | 𝖈 𝕮      | 𝓬 𝓒
+| `d` `D`  | 𝖉 𝕯      | 𝓭 𝓓
+| `e` `E`  | 𝖊 𝕰      | 𝓮 𝓔
+| `f` `F`  | 𝖋 𝕱      | 𝓯 𝓕
+| `g` `G`  | 𝖌 𝕲      | 𝓰 𝓖
+| `h` `H`  | 𝖍 𝕳      | 𝓱 𝓗
+| `i` `I`  | 𝖎 𝕴      | 𝓲 𝓘
+| `j` `J`  | 𝖏 𝕵      | 𝓳 𝓙
+| `k` `K`  | 𝖐 𝕶      | 𝓴 𝓚
+| `l` `L`  | 𝖑 𝕷      | 𝓵 𝓛
+| `m` `M`  | 𝖒 𝕸      | 𝓶 𝓜
+| `n` `N`  | 𝖓 𝕹      | 𝓷 𝓝
+| `o` `O`  | 𝖔 𝕺      | 𝓸 𝓞
+| `p` `P`  | 𝖕 𝕻      | 𝓹 𝓟
+| `q` `Q`  | 𝖖 𝕼      | 𝓺 𝓠
+| `r` `R`  | 𝖗 𝕽      | 𝓻 𝓡
+| `s` `S`  | 𝖘 𝕾      | 𝓼 𝓢
+| `t` `T`  | 𝖙 𝕿      | 𝓽 𝓣
+| `u` `U`  | 𝖚 𝖀      | 𝓾 𝓤
+| `v` `V`  | 𝖛 𝖁      | 𝓿 𝓥
+| `w` `W`  | 𝖜 𝖂      | 𝔀 𝓦
+| `x` `X`  | 𝖝 𝖃      | 𝔁 𝓧
+| `y` `Y`  | 𝖞 𝖄      | 𝔂 𝓨
+| `z` `Z`  | 𝖟 𝖅      | 𝔃 𝓩
+| `0` `)`  | 𝟘 )      | 0 )
+| `1` `!`  | 𝟙 !      | 1 !
+| `2` `@`  | 𝟚 @      | 2 @
+| `3` `#`  | 𝟛 #      | 3 #
+| `4` `$`  | 𝟜 $      | 4 $
+| `5` `%`  | 𝟝 %      | 5 %
+| `6` `^`  | 𝟞 ^      | 6 ^
+| `7` `&`  | 𝟟 &      | 7 &
+| `8` `*`  | 𝟠 *      | 8 *
+| `9` `(`  | 𝟡 (      | 9 (
 
 
 ## Compose Sequences

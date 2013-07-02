@@ -14,62 +14,58 @@ xkb_symbols "basic" {
 	
 	// Digits plus double-stroked digits - hex numbers are Unicode codepoints + 0x1000000
 	key.type[Group1] = "EIGHT_LEVEL";
-	key <AE10> { [ 0, parenright,  dead_abovering,  dead_abovering, 0x101d7d8, parenright,  dead_abovering,  dead_abovering ] };
-	key <AE01> { [ 1, exclam,      exclamdown,      exclamdown,     0x101d7d9, exclam,      exclamdown,      exclamdown     ] };
-	key <AE02> { [ 2, at,          1,               at,             0x101d7da, at,          1,               at             ] };
-	key <AE03> { [ 3, numbersign,  3,               numbersign,     0x101d7db, numbersign,  3,               numbersign     ] };
-	key <AE04> { [ 4, dollar,      4,               dollar,         0x101d7dc, dollar,      4,               dollar         ] };
-	key <AE05> { [ 5, percent,     5,               percent,        0x101d7dd, percent,     5,               percent        ] };
-	key <AE06> { [ 6, asciicircum, dead_circumflex, dead_caron,     0x101d7de, asciicircum, dead_circumflex, dead_caron     ] };
-	key <AE07> { [ 7, ampersand,   7,               ampersand,      0x101d7df, ampersand,   7,               ampersand      ] };
-	key <AE08> { [ 8, asterisk,    8,               asterisk,       0x101d7e0, asterisk,    8,               asterisk       ] };
-	key <AE09> { [ 9, parenleft,   dead_breve,      dead_breve,     0x101d7e1, parenleft,   dead_breve,      dead_breve     ] };
+	key <AE10> { [ 0, parenright,  dead_abovering,  dead_abovering, 0x101d7d8, parenright,  0, parenright  ] };
+	key <AE01> { [ 1, exclam,      exclamdown,      exclamdown,     0x101d7d9, exclam,      1, exclam      ] };
+	key <AE02> { [ 2, at,          2,               at,             0x101d7da, at,          2, at          ] };
+	key <AE03> { [ 3, numbersign,  3,               numbersign,     0x101d7db, numbersign,  3, numbersign  ] };
+	key <AE04> { [ 4, dollar,      4,               dollar,         0x101d7dc, dollar,      4, dollar      ] };
+	key <AE05> { [ 5, percent,     5,               percent,        0x101d7dd, percent,     5, percent     ] };
+	key <AE06> { [ 6, asciicircum, dead_circumflex, dead_caron,     0x101d7de, asciicircum, 6, asciicircum ] };
+	key <AE07> { [ 7, ampersand,   7,               ampersand,      0x101d7df, ampersand,   7, ampersand   ] };
+	key <AE08> { [ 8, asterisk,    8,               asterisk,       0x101d7e0, asterisk,    8, asterisk    ] };
+	key <AE09> { [ 9, parenleft,   dead_breve,      dead_breve,     0x101d7e1, parenleft,   9, parenleft   ] };
 	
-	// Letters plus Fraktur symbols - hex numbers are Unicode codepoints + 0x1000000
+	// Letters plus Fraktur and crusive symbols - hex numbers are Unicode codepoints + 0x1000000
 	key.type[Group1] = "EIGHT_LEVEL";
-	key <AC01> { [ a, A, adiaeresis, Adiaeresis, 0x101d586, 0x101d56c, adiaeresis, Adiaeresis ] };
-	key <AB05> { [ b, B, b,          B,          0x101d587, 0x101d56d, b,          B          ] };
-	key <AB03> { [ c, C, c,          C,          0x101d588, 0x101d56e, c,          C          ] };
-	key <AC03> { [ d, D, d,          D,          0x101d589, 0x101d56f, d,          D          ] };
-	key <AD03> { [ e, E, EuroSign,   cent,       0x101d58a, 0x101d570, EuroSign,   cent       ] };
-	key <AC04> { [ f, F, f,          F,          0x101d58b, 0x101d571, f,          F          ] };
-	key <AC05> { [ g, G, dead_greek, dead_greek, 0x101d58c, 0x101d572, dead_greek, dead_greek ] };
-	key <AC06> { [ h, H, h,          H,          0x101d58d, 0x101d573, h,          H          ] };
-	key <AD08> { [ i, I, idiaeresis, Idiaeresis, 0x101d58e, 0x101d574, idiaeresis, Idiaeresis ] };
-	key <AC07> { [ j, J, j,          J,          0x101d58f, 0x101d575, j,          J          ] };
-	key <AC08> { [ k, K, k,          K,          0x101d590, 0x101d576, k,          K          ] };
-	key <AC09> { [ l, L, sterling,   cent,       0x101d591, 0x101d577, sterling,   cent       ] };
-	key <AB07> { [ m, M, m,          M,          0x101d592, 0x101d578, m,          M          ] };
-	key <AB06> { [ n, N, n,          N,          0x101d593, 0x101d579, n,          N          ] };
-	key <AD09> { [ o, O, odiaeresis, Odiaeresis, 0x101d594, 0x101d57a, odiaeresis, Odiaeresis ] };
-	key <AD10> { [ p, P, section,    paragraph,  0x101d595, 0x101d57b, section,    paragraph  ] };
-	key <AD01> { [ q, Q, q,          Q,          0x101d596, 0x101d57c, q,          Q          ] };
-	key <AD04> { [ r, R, r,          R,          0x101d597, 0x101d57d, r,          R          ] };
-	key <AC02> { [ s, S, ssharp,     ssharp,     0x101d598, 0x101d57e, ssharp,     ssharp     ] };
-	key <AD05> { [ t, T, t,          T,          0x101d599, 0x101d57f, t,          T          ] };
-	key <AD07> { [ u, U, udiaeresis, Udiaeresis, 0x101d59a, 0x101d580, udiaeresis, Udiaeresis ] };
-	key <AB04> { [ v, V, v,          V,          0x101d59b, 0x101d581, v,          V          ] };
-	key <AD02> { [ w, W, w,          W,          0x101d59c, 0x101d582, w,          W          ] };
-	key <AB02> { [ x, X, x,          X,          0x101d59d, 0x101d583, x,          X          ] };
-	key <AD06> { [ y, Y, ydiaeresis, Ydiaeresis, 0x101d59e, 0x101d584, ydiaeresis, Ydiaeresis ] };
-	key <AB01> { [ z, Z, z,          Z,          0x101d59f, 0x101d585, z,          Z          ] };
-	
-	include "us_de(level5_rwin_switch_lock)"
-	
-	include "level3(ralt_switch)"
-	
-	include "compose(menu)"
-	
-};
-
-partial modifier_keys
-xkb_symbols "level5_rwin_switch_lock" {
+	key <AC01> { [ a, A, adiaeresis, Adiaeresis, 0x101d586, 0x101d56c, 0x101d4ea, 0x101d4d0 ] };
+	key <AB05> { [ b, B, b,          B,          0x101d587, 0x101d56d, 0x101d4eb, 0x101d4d1 ] };
+	key <AB03> { [ c, C, c,          C,          0x101d588, 0x101d56e, 0x101d4ec, 0x101d4d2 ] };
+	key <AC03> { [ d, D, d,          D,          0x101d589, 0x101d56f, 0x101d4ed, 0x101d4d3 ] };
+	key <AD03> { [ e, E, EuroSign,   cent,       0x101d58a, 0x101d570, 0x101d4ee, 0x101d4d4 ] };
+	key <AC04> { [ f, F, f,          F,          0x101d58b, 0x101d571, 0x101d4ef, 0x101d4d5 ] };
+	key <AC05> { [ g, G, dead_greek, dead_greek, 0x101d58c, 0x101d572, 0x101d4f0, 0x101d4d6 ] };
+	key <AC06> { [ h, H, h,          H,          0x101d58d, 0x101d573, 0x101d4f1, 0x101d4d7 ] };
+	key <AD08> { [ i, I, idiaeresis, Idiaeresis, 0x101d58e, 0x101d574, 0x101d4f2, 0x101d4d8 ] };
+	key <AC07> { [ j, J, j,          J,          0x101d58f, 0x101d575, 0x101d4f3, 0x101d4d9 ] };
+	key <AC08> { [ k, K, k,          K,          0x101d590, 0x101d576, 0x101d4f4, 0x101d4da ] };
+	key <AC09> { [ l, L, sterling,   cent,       0x101d591, 0x101d577, 0x101d4f5, 0x101d4db ] };
+	key <AB07> { [ m, M, m,          M,          0x101d592, 0x101d578, 0x101d4f6, 0x101d4dc ] };
+	key <AB06> { [ n, N, n,          N,          0x101d593, 0x101d579, 0x101d4f7, 0x101d4dd ] };
+	key <AD09> { [ o, O, odiaeresis, Odiaeresis, 0x101d594, 0x101d57a, 0x101d4f8, 0x101d4de ] };
+	key <AD10> { [ p, P, section,    paragraph,  0x101d595, 0x101d57b, 0x101d4f9, 0x101d4df ] };
+	key <AD01> { [ q, Q, q,          Q,          0x101d596, 0x101d57c, 0x101d4fa, 0x101d4e0 ] };
+	key <AD04> { [ r, R, r,          R,          0x101d597, 0x101d57d, 0x101d4fb, 0x101d4e1 ] };
+	key <AC02> { [ s, S, ssharp,     0x1001e9e,  0x101d598, 0x101d57e, 0x101d4fc, 0x101d4e2 ] };
+	key <AD05> { [ t, T, t,          T,          0x101d599, 0x101d57f, 0x101d4fd, 0x101d4e3 ] };
+	key <AD07> { [ u, U, udiaeresis, Udiaeresis, 0x101d59a, 0x101d580, 0x101d4fe, 0x101d4e4 ] };
+	key <AB04> { [ v, V, v,          V,          0x101d59b, 0x101d581, 0x101d4ff, 0x101d4e5 ] };
+	key <AD02> { [ w, W, w,          W,          0x101d59c, 0x101d582, 0x101d500, 0x101d4e6 ] };
+	key <AB02> { [ x, X, x,          X,          0x101d59d, 0x101d583, 0x101d501, 0x101d4e7 ] };
+	key <AD06> { [ y, Y, ydiaeresis, Ydiaeresis, 0x101d59e, 0x101d584, 0x101d502, 0x101d4e8 ] };
+	key <AB01> { [ z, Z, z,          Z,          0x101d59f, 0x101d585, 0x101d503, 0x101d4e9 ] };
 	
 	include "level5(lock)"
-	
 	key <RWIN> {
 		type[Group1] = "EIGHT_LEVEL",
-		symbols[Group1] = [ ISO_Level5_Shift, ISO_Level5_Shift, ISO_Level5_Lock, ISO_Level5_Lock, ISO_Level5_Lock, ISO_Level5_Lock, ISO_Level5_Lock, ISO_Level5_Lock ]
+		symbols[Group1] = [ ISO_Level5_Shift, ISO_Level5_Lock, ISO_Level5_Shift, ISO_Level5_Lock, ISO_Level5_Lock, ISO_Level5_Lock, ISO_Level5_Shift, ISO_Level5_Lock ]
 	};
+	
+	include "level3(ralt_switch)"
+	key <RALT> {
+		type[Group1] = "EIGHT_LEVEL",
+		symbols[Group1] = [ ISO_Level3_Shift, ISO_Level3_Shift, ISO_Level3_Lock, ISO_Level3_Lock, ISO_Level3_Shift, ISO_Level3_Lock, ISO_Level3_Lock, ISO_Level3_Lock ]
+	};
+	
+	include "compose(menu)"
 	
 };
