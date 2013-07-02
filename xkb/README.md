@@ -32,6 +32,50 @@ The following table lists the modified keys:
 
 Dead keys don't print anything, but instead modify the next input by composing the symbol and key if possible.
 
+## Fraktur
+
+Additionally, the key map changes `AltGr`+`RightWin` to switch letters to Fraktur symbols and digits to double-stroked digits. You can also use the `RightWin` without `AltGr` key to shift to Fraktur symbols without locking.
+
+| Key      | Caps | Caps + Shift |
+|--------- | ---- | ------------ |
+| `a` `A`  | 𝖆    | 𝕬             |
+| `b` `B`  | 𝖇    | 𝕭             |
+| `c` `C`  | 𝖈    | 𝕮             |
+| `d` `D`  | 𝖉    | 𝕯             |
+| `e` `E`  | 𝖊    | 𝕰             |
+| `f` `F`  | 𝖋    | 𝕱             |
+| `g` `G`  | 𝖌    | 𝕲             |
+| `h` `H`  | 𝖍    | 𝕳             |
+| `i` `I`  | 𝖎    | 𝕴             |
+| `j` `J`  | 𝖏    | 𝕵             |
+| `k` `K`  | 𝖐    | 𝕶             |
+| `l` `L`  | 𝖑    | 𝕷             |
+| `m` `M`  | 𝖒    | 𝕸             |
+| `n` `N`  | 𝖓    | 𝕹             |
+| `o` `O`  | 𝖔    | 𝕺             |
+| `p` `P`  | 𝖕    | 𝕻             |
+| `q` `Q`  | 𝖖    | 𝕼             |
+| `r` `R`  | 𝖗    | 𝕽             |
+| `s` `S`  | 𝖘    | 𝕾             |
+| `t` `T`  | 𝖙    | 𝕿             |
+| `u` `U`  | 𝖚    | 𝖀             |
+| `v` `V`  | 𝖛    | 𝖁             |
+| `w` `W`  | 𝖜    | 𝖂             |
+| `x` `X`  | 𝖝    | 𝖃             |
+| `y` `Y`  | 𝖞    | 𝖄             |
+| `z` `Z`  | 𝖟    | 𝖅             |
+| `0` `)`  | 𝟘    | )             |
+| `1` `!`  | 𝟙    | !             |
+| `2` `@`  | 𝟚    | @             |
+| `3` `#`  | 𝟛    | #             |
+| `4` `$`  | 𝟜    | $             |
+| `5` `%`  | 𝟝    | %             |
+| `6` `^`  | 𝟞    | ^             |
+| `7` `&`  | 𝟟    | &             |
+| `8` `*`  | 𝟠    | *             |
+| `9` `(`  | 𝟡    | (             |
+
+
 ## Compose Sequences
 
 Additionally, the menu key is now the multi/compose key. After pressing the menu key, the following key combinations will produce special characters. (for the en_US.UTF-8 locale)
