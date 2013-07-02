@@ -12,6 +12,7 @@ xkb_symbols "basic" {
 	key <AE11> { [ minus,      underscore,  dead_belowdot,   dead_belowdot  ] };
 	key <TLDE> { [ grave,      asciitilde,  dead_grave,      dead_tilde     ] };
 	
+	// Digits plus double-stroked digits - hex numbers are Unicode codepoints + 0x1000000
 	key.type[Group1] = "EIGHT_LEVEL";
 	key <AE10> { [ 0, parenright,  dead_abovering,  dead_abovering, 0x101d7d8, parenright,  dead_abovering,  dead_abovering ] };
 	key <AE01> { [ 1, exclam,      exclamdown,      exclamdown,     0x101d7d9, exclam,      exclamdown,      exclamdown     ] };
@@ -24,6 +25,7 @@ xkb_symbols "basic" {
 	key <AE08> { [ 8, asterisk,    8,               asterisk,       0x101d7e0, asterisk,    8,               asterisk       ] };
 	key <AE09> { [ 9, parenleft,   dead_breve,      dead_breve,     0x101d7e1, parenleft,   dead_breve,      dead_breve     ] };
 	
+	// Letters plus Fraktur symbols - hex numbers are Unicode codepoints + 0x1000000
 	key.type[Group1] = "EIGHT_LEVEL";
 	key <AC01> { [ a, A, adiaeresis, Adiaeresis, 0x101d586, 0x101d56c, adiaeresis, Adiaeresis ] };
 	key <AB05> { [ b, B, b,          B,          0x101d587, 0x101d56d, b,          B          ] };
