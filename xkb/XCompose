@@ -8,6 +8,8 @@ include "%L"
 <Multi_key> <s> <q> <r> <t>                     : "√"
 <Multi_key> <l> <o> <d>                         : "ಠ_ಠ"  # look of disapproval
 <Multi_key> <s> <l> <o> <d>                     : "ಠ◡ಠ"  # smiling look of disapproval
+<Multi_key> <t> <a> <b> <l> <e>                 : "(╯°□°）╯︵ ┻━┻"
+<Multi_key> <u> <n> <f> <l> <i> <p>             : "┬─┬ノ( º _ ºノ)"
 <Multi_key> <r> <a> <d>                         : "☢"
 <Multi_key> <a> <t> <o> <m>                     : "⚛"
 <Multi_key> <b> <i> <o>                         : "☣"

@@ -263,6 +263,8 @@ The `XCompose` file provides a few custom compose sequences:
 | ℂ      | `U+2102`               | `complex`                               |
 | ಠ_ಠ    | `U+0CA0 U+005F U+0CA0` | `lod`                                   |
 | ಠ◡ಠ    | `U+0CA0 U+25E1 U+0CA0` | `slod`                                  |
+| (╯°□°）╯︵ ┻━┻  | ...           | `table`                                 |
+| ┬─┬ノ( º _ ºノ) | ...           | `unflip`                                |
 | ☢      | `U+2622`               | `rad`                                   |
 | ⚛      | `U+269B`               | `atom`                                  |
 | ☣      | `U+2623`               | `bio`                                   |
