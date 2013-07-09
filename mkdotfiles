@@ -11,7 +11,7 @@ cd "$(dirname "$(which "$0")")/dotfiles"
 
 for f in * ; do
 	dotfile="$HOME/.$f"
-	t="$(pwd)/$f"
+	t="$(realpath --relative-base="$HOME" "$(pwd)/$f")"
 	if [ -L "$dotfile" ] ; then
 		if [ "$(readlink "$dotfile")" != "$t" ] ; then
 			ot="$(readlink "$dotfile")"
