@@ -33,6 +33,9 @@ enter() { mkdir -p "$1" && cd "$1"; }
 alias cdg='cd "$(git rev-parse --show-toplevel)"'
 
 HISTSIZE=10000
+bind '"\e[A"':history-search-backward
+bind '"\e[B"':history-search-forward
+
 PS1="\[\033[01;32m\]\u@\h\[\033[01;34m\] \W \$\[\033[00m\] "
 
 if [ $TERM = "xterm" ] ; then
