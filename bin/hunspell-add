@@ -3,6 +3,12 @@
 # Add words to the hunsepll user dictionary
 # Usage: hunspell-add <word> [<word> ...]
 
+file="$HOME/.hunspell_en_US"
+words="$(cat ~/.hunspell_en_US)"
+
 for word in "$@" ; do
-	echo "$word" >> ~/.hunspell_en_US
+	words="$words
+$word"
 done
+
+printf "%s\n" "$words" | sort | uniq > "$file"
