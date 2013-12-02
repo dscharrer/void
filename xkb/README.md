@@ -277,6 +277,7 @@ The `XCompose` file provides a few custom compose sequences:
 | ℹ      | `U+2139`               | `iinfo`                                 |
 | ↑      | `U+2191`               | `up` `^^`                               |
 | ฿      | `U+0E3F`               | `btc`                                   |
+| 🐧      | `U+1F427`              | `tux` `penguin`                         |
 
 To enable them, link/copy the `XCompose` file to `~/.XCompose`.
 
