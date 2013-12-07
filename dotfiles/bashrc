@@ -32,6 +32,9 @@ alias nokeygrab=~/.void/x11/nokeygrab.c
 enter() { mkdir -p "$1" && cd "$1"; }
 alias cdg='cd "$(git rev-parse --show-toplevel)"'
 
+# Fix ls ignoring LC_TIME=en_DK.utf-8
+export TIME_STYLE=long-iso
+
 HISTSIZE=100000
 bind '"\e[A"':history-search-backward
 bind '"\e[B"':history-search-forward
