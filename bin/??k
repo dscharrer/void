@@ -3,4 +3,6 @@
 # Grep recursively for a C/C++ keyword 
 # Usage: ??k <keyword> [grep-args...]
 
-exec grep -rP --color=auto "(?:^|[^a-zA-Z0-9_])$1(?:[^a-zA-Z0-9_]|$)" "${@:2}"
+nosym="![a-zA-Z0-9_]"
+
+exec grep --recursive --perl-regexp --color=auto "(?<$nosym)$1(?$nosym)" "${@:2}"
