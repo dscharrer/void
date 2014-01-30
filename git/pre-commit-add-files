@@ -10,7 +10,7 @@ if [ -t 1 ] && [ `tput colors` != -1 ] ; then
 	reset=`printf '\033[0m'`
 fi
 
-untracked=`git status -u | grep '^# Untracked files:$'`
+untracked=`git status -u | grep -P '^(# )?Untracked files:$'`
 if [ "$untracked" != "" ] ; then
 	git status ; echo "${red}Add untracked files first!${reset}"
 	echo "Use the ${white}--no-verify${reset} option to commit anyway."
