@@ -3,4 +3,4 @@
 # Play a youtube video in mplayer2
 # Usage: yplay <youtube-url> [mplayer2-args...]
 
-exec mplayer2 -msgcolor -fs -cache 200000 -cache-min 1 "$(youtube-dl -g "$1")" "${@:2}"
+exec play -cache 200000 -cache-min 1 "$(youtube-dl -g "$1")" "${@:2}"
