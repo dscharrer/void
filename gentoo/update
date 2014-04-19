@@ -109,3 +109,8 @@ fi
 
 step 'Mooing'
 action emerge --moo
+
+if has lib_users ; then
+	step 'Stuff to restart'
+	lib_users
+fi
