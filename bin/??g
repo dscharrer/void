@@ -3,5 +3,7 @@
 # Search for files in a source code repository, ignoring the .git and build dirs
 # Usage: ??g <search-term> [grep-options...]
 
-cd "$(git rev-parse --show-toplevel)"
+gitdir="$(git rev-parse --show-toplevel)"
+[ $? = 0 ] || exit 1
+cd "$gitdir"
 exec grep -rP --color=auto --exclude-dir=build --exclude-dir=.git "$@"
