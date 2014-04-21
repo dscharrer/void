@@ -35,6 +35,8 @@ alias cdg='cd "$(git rev-parse --show-toplevel)"'
 # Fix ls ignoring LC_TIME=en_DK.utf-8
 export TIME_STYLE=long-iso
 
+export GCC_COLORS=1
+
 HISTFILESIZE=100000
 HISTSIZE=100000
 bind '"\e[A"':history-search-backward
