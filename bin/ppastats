@@ -1,0 +1,62 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Licensed under the GPL v3 or later
+# Written by Martin Erik Werner <martinerikwerner@gmail.com>
+# Inspired by Alex Mandel's script snippets at
+# https://bugs.launchpad.net/launchpad/+bug/139855
+# This script could be done much nicer by someone with actual knowledge of
+# Python
+# On Debian-like systems the package python-launchpadlib is required
+
+import sys
+import os
+import argparse
+from launchpadlib.launchpad import Launchpad
+
+parser = argparse.ArgumentParser(description="Print PPA download stats")
+parser.add_argument("user", nargs=1, help="Launchpad user/team name")
+parser.add_argument("ppa", nargs='*', default='ppa', help="PPA name(s)")
+parser.add_argument("--all", action='store_true', help="Also list packages with 0 downloads")
+parser.add_argument("--arch", help="Limit to one architecture")
+parser.add_argument("--release", help="Limit to one Ubuntu release")
+
+args = parser.parse_args()
+
+owner_name = args.user[0]
+short_ppas = args.ppa
+showall = args.all
+archs = [ args.arch ]
+if not args.arch:
+	archs = ["amd64", "i386"]
+cachedir = os.path.expanduser("~/.launchpadlib/cache/")
+launchpad = Launchpad.login_anonymously('ppastats', 'production', cachedir, version='devel')
+owner = launchpad.people[owner_name]
+series_all = launchpad.distributions["ubuntu"].series
+releases = [ args.release ]
+if not args.release:
+	releases = [ s.name for s in series_all if s.active ]
+
+
+for short_ppa in short_ppas:
+	print "usage stats for PPA with owner \"" + owner_name + "\" named \"" + short_ppa + "\""
+	ppa = owner.getPPAByName(name=short_ppa)
+
+	for release in releases:
+		for arch in archs:
+			distro_arch_series = "https://api.launchpad.net/devel/ubuntu/" + release + "/" + arch
+
+			# is empty if ppa release/arch section is empty
+			list_published = list(ppa.getPublishedBinaries(status='Published',distro_arch_series=distro_arch_series))
+
+			if list_published:
+				print
+				print " == " + release + "/" + arch + " =="
+				print '{0:25} {1:24} {2:4}'.format("Name", "Version", "Count")
+
+			for package in list_published:
+				name = package.binary_package_name
+				version = package.binary_package_version
+				count = package.getDownloadCount()
+				if count > 0 or showall:
+					print '{0:25} {1:25} {2:4d}'.format(name, version, count)
