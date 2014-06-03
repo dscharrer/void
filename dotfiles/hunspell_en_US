@@ -16,6 +16,7 @@ Debian
 DejaVu
 DirectX
 dotfiles
+doxygen
 Doxygen
 endian
 enum
@@ -24,6 +25,7 @@ FQDN
 FreeBSD
 fullscreen
 GCC
+Gentoo
 GitHub
 GL
 GLEW
@@ -40,10 +42,13 @@ manpage
 microdata
 MinGW
 MSVC
+namespace
+ncurses
 nginx
 Nvidia
 OpenGL
 openSUSE
+OpenSUSE
 PGP
 POSIX
 README
@@ -54,7 +59,9 @@ SDL
 shaders
 Slackware
 templating
+terminfo
 timestamp
+tinfo
 TODO
 Ubuntu
 UI
