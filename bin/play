@@ -38,7 +38,7 @@ for path in "${paths[@]}" ; do
 	# Treat other paths as possible directories and search for files
 	while IFS= read -r -d '' file; do
 		files+=("$file")
-	done < <(find "$path" "${find_args[@]}" -print0)
+	done < <(find "$path" "${find_args[@]}" -print0 | sort -z)
 	
 done
 
@@ -46,7 +46,7 @@ done
 if [ ${#paths[@]} = 0 ] ; then
 	while IFS= read -r -d '' file; do
 		files+=("$file")
-	done < <(find "${find_args[@]}" -print0)
+	done < <(find "${find_args[@]}" -print0 | sort -z)
 fi
 
 if [ ${#files[@]} = 0 ] ; then echo 'No files found!' ; exit 1 ; fi
