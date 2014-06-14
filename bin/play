@@ -4,8 +4,19 @@
 # Usage: play [mplayer2-flags] paths...
 
 paths=()
-flags=(-msgcolor -fs -cache 8000 -vo xv)
+flags=(-msgcolor -fs -cache 8000)
 find_args=( -type f )
+
+local driver='unknown'
+for arg in $(cat /proc/cmdline); do
+	case "$arg" in gpu_driver=*)
+		driver="${arg#gpu_driver=}"
+	esac
+done
+case "$driver" in
+	fglrx)  flags+=( -vo xv ) ;;
+	radeon) flags+=( -vo vdpau ) ;;
+esac
 
 mode=0
 for arg in "$@" ; do
