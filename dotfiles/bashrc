@@ -37,6 +37,7 @@ export TIME_STYLE=long-iso
 
 export GCC_COLORS=1
 
+HISTCONTROL=erasedups
 HISTFILESIZE=100000
 HISTSIZE=100000
 bind '"\e[A"':history-search-backward
