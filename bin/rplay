@@ -3,4 +3,4 @@
 # Play files/directories in random order, looped forever
 # Usage: rplay [mplayer2-flags] paths...
 
-exec play -shuffle -loop 0 "$@"
+exec play -shuffle -loop inf "$@"
