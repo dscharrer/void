@@ -8,6 +8,7 @@ CMake
 cmakedefine01
 config
 const
+coverity
 cppcheck
 cpplint
 CSS
@@ -18,6 +19,7 @@ DirectX
 dotfiles
 doxygen
 Doxygen
+emoticons
 endian
 enum
 Fatalis
@@ -52,6 +54,7 @@ openSUSE
 OpenSUSE
 PGP
 POSIX
+pseudocode
 README
 refactor
 repo
