@@ -21,10 +21,10 @@ for f in * ; do
 		else
 			echo "Skipped .$f -> $(readlink "$dotfile")"
 		fi
-	else if [ -e "$dotfile" ] ; then
+	elif [ -e "$dotfile" ] ; then
 		echo "${red}Skipped .$f (exists but is not a symlink)${reset}"
 	else
 		ln -s "$t" "$dotfile"
 		echo "${white}Created .$f${reset} -> $t"
-	fi ; fi
+	fi
 done
