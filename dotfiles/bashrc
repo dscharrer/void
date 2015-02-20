@@ -48,3 +48,8 @@ PS1="\[\033[01;32m\]\u@\h\[\033[01;34m\] \W \$\[\033[00m\] "
 if [ $TERM = "xterm" ] ; then
     export TERM=xterm-256color
 fi
+
+if [ -z "$PROMPT_COMMAND" ]
+	then PROMPT_COMMAND="stty echo"
+	else PROMPT_COMMAND+="; stty echo"
+fi
