@@ -1,22 +1,22 @@
 #if 0
 
-#//
-#// Fix adio stutter in Grim Fandango Remastered with ALSA.
-#//
-#// Usage: sh grimfix.c [path/to/GrimFandango]
-#//
-#// You can copy this file to the Grim Fandango Steam in stall and then set the
-#// launch options under Properties → Set Launch Options... to
-#//   sh grimfix.c %command%
-#//
-#// Requires:
-#//  - GCC with support for compiling 32-bit binaries
-#//  - 32-bit SDL2 development files
-#//  - pkg-config
-#//
-#// Ubuntu users may or may not be able to install these using
-#//   sudo apt-get install gcc-multilib libsdl2-dev:i386 pkg-config
-#//
+#/*
+# * Fix adio stutter in Grim Fandango Remastered with ALSA.
+# *
+# * Usage: sh grimfix.c [path/to/GrimFandango]
+# *
+# * You can copy this file to the Grim Fandango Steam in stall and then set the
+# * launch options under Properties → Set Launch Options... to
+# *   sh grimfix.c %command%
+# *
+# * Requires:
+# *  - GCC with support for compiling 32-bit binaries
+# *  - 32-bit SDL2 development files
+# *  - pkg-config
+# *
+# * Ubuntu users may or may not be able to install these using
+# *   sudo apt-get install gcc-multilib libsdl2-dev:i386 pkg-config
+# */
 
 [ $# = 0 ] && set -- ./GrimFandango
 
@@ -25,7 +25,7 @@ name="${self##*/}" ; name="${name%.c}"
 out="${self%/*}/$name"
 soname="$name.so"
 
-#// Compile the LD_PRELOAD library
+#/* Compile the LD_PRELOAD library */
 for arch in 32 ; do
 	mkdir -p "$out/$arch"
 	if [ ! -f "$out/$arch/$soname" ] || [ "$self" -nt "$out/$arch/$soname" ] ; then
@@ -45,25 +45,21 @@ for arch in 32 ; do
 	export LD_LIBRARY_PATH="$out/$arch:$LD_LIBRARY_PATH"
 done
 
-#// Run the executable
+#/* Run the executable */
 export LD_PRELOAD="$soname:$LD_PRELOAD"
 [ -z "$1" ] || exec "$@"
 
 exit
 
-#endif // 0
+#endif /* 0 */
 
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
 #endif
 
 #include <string.h>
-
 #include <dlfcn.h>
-
 #include <SDL.h>
-
-// "Fix" sample rate
 
 typedef SDL_AudioDeviceID (*SDL_OpenAudioDevice_t)(const char *, int,
                                                    const SDL_AudioSpec *,
@@ -77,8 +73,11 @@ SDL_AudioDeviceID SDL_OpenAudioDevice(const char * device, int iscapture,
 	SDL_AudioSpec fixed;
 	memcpy(&fixed, desired, sizeof(SDL_AudioSpec));
 	
-	// SDL's pulse backend halves the requested sample count and GrimFandango depends on this
-	// https://github.com/spurious/SDL-mirror/blob/master/src/audio/pulseaudio/SDL_pulseaudio.c#L413
+	/*
+	 * "Fix" sample rate
+	 * SDL's pulse backend halves the requested sample count and GrimFandango depends on this
+	 * https://github.com/spurious/SDL-mirror/blob/master/src/audio/pulseaudio/SDL_pulseaudio.c#L413
+	 */
 	fixed.samples /= 2;
 	
 	if(!real_SDL_OpenAudioDevice) {
