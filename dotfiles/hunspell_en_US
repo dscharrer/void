@@ -9,6 +9,7 @@ cmakedefine01
 config
 const
 coverity
+cpp
 cppcheck
 cpplint
 CSS
@@ -48,6 +49,7 @@ MSVC
 namespace
 ncurses
 nginx
+nullptr
 Nvidia
 OpenGL
 openSUSE
@@ -61,6 +63,7 @@ repo
 screenshot
 SDL
 shaders
+shellcheck
 Slackware
 templating
 terminfo
