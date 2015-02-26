@@ -1,5 +1,8 @@
 #if 0
 
+echo "This is no longer needed with the latest update and in fact breaks the audio now."
+exit 1
+
 #/*
 # * Fix adio stutter in Grim Fandango Remastered with ALSA.
 # *
