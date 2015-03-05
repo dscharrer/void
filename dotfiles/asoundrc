@@ -1,0 +1,13 @@
+pcm.!default {
+	type asym
+	playback.pcm {
+		type plug
+		slave.pcm "dmix:CARD=SB"
+		hint.device 0
+	}
+	capture.pcm {
+		type plug
+		slave.pcm "dsnoop:CARD=Device"
+		hint.device 0
+	}
+}
