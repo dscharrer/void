@@ -50,4 +50,4 @@ if [ $TERM = "xterm" ] ; then
     export TERM=xterm-256color
 fi
 
-PROMPT_COMMAND="stty echo"
+PROMPT_COMMAND="stty sane"
