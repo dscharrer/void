@@ -4,6 +4,20 @@
 # * Fix for games/engines that require NV/AMD OpenGL extensions to query VRAM
 # * size and behave stupidly when those are not available.
 # * This implementation requires the GLX_MESA_query_renderer extension.
+# *
+# * Usage: sh glamdmeminfo.c [path/to/game/binary]
+# *
+# * You can copy this file to the game's Steam install and then set the
+# * launch options under Properties → Set Launch Options... to
+# *   sh glamdmeminfo.c %command%
+# *
+# * Requires:
+# *  - GCC with support for compiling 32-bit binaries
+# *  - 32-bit OpenGL development files (mesa)
+# *  - pkg-config
+# *
+# * Ubuntu users may or may not be able to install these using
+# *   sudo apt-get install gcc-multilib libgl1-mesa-dev libgl1-mesa-dev:i386 pkg-config
 # */
 
 self="$(command -v "$0")" ; self="${self:-$0}" ; self="$(readlink -f "$self")"
