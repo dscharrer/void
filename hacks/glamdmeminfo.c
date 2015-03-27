@@ -141,7 +141,7 @@ const GLubyte * glGetStringi(GLenum name, GLuint index) {
 	
 	unsigned n = sizeof(extension_hijack)/sizeof(*extension_hijack);
 	if(name == GL_EXTENSIONS && index >= (GLuint)extension_hijack_index
-	   && index <= (GLuint)extension_hijack_index + n) {
+	   && index < (GLuint)extension_hijack_index + n) {
 		const char * str = extension_hijack[index - extension_hijack_index];
 		printf("[hook] fixed GL_EXTENSIONS​[%d] = %s\n", (int)index, str);
 		return (const GLubyte *)str;
