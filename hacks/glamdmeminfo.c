@@ -120,7 +120,8 @@ void glGetIntegerv(GLenum pname, GLint * params) {
 			if(real_glGetIntegerv) {
 				real_glGetIntegerv(GL_NUM_EXTENSIONS, &extension_hijack_index);
 			}
-			params[0] = extension_hijack_index + 2;
+			unsigned n = sizeof(extension_hijack)/sizeof(*extension_hijack);
+			params[0] = extension_hijack_index + n;
 			printf("[hook] fixed GL_NUM_EXTENSIONS​ = %d\n", (int)params[0]);
 			break;
 		}
