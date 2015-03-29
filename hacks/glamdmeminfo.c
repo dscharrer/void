@@ -46,7 +46,7 @@ for arch in 32 64 ; do
 done
 
 #/* Run the executable */
-export LD_PRELOAD="$soname:$LD_PRELOAD"
+export LD_PRELOAD="$LD_PRELOAD:$soname" # segfaults with steam overlay if prepended
 [ -z "$1" ] || exec "$@"
 
 exit
