@@ -53,6 +53,13 @@ exit
 
 #endif /* 0 */
 
+
+
+#define EXPOSE_GL_ATI_meminfo          1
+#define EXPOSE_GL_NVX_gpu_memory_info  0
+
+
+
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
 #endif
@@ -63,8 +70,6 @@ exit
 
 #include <dlfcn.h>
 #include <GL/gl.h>
-
-// "Fix" ARB shaders
 
 typedef void(*funcptr_t)();
 typedef funcptr_t (*glXGetProcAddress_t)(const GLubyte * procName);
@@ -79,42 +84,79 @@ static void * get_proc(const char * name) {
 	return real_glXGetProcAddress((const GLubyte *)name);
 }
 
+#define GLX_RENDERER_VIDEO_MEMORY_MESA                   0x8187
 
-#define GL_VBO_FREE_MEMORY_ATI           0x87FB
-#define GL_TEXTURE_FREE_MEMORY_ATI       0x87FC
-#define GL_RENDERBUFFER_FREE_MEMORY_ATI  0x87FD
+#define GL_VBO_FREE_MEMORY_ATI                           0x87FB
+#define GL_TEXTURE_FREE_MEMORY_ATI                       0x87FC
+#define GL_RENDERBUFFER_FREE_MEMORY_ATI                  0x87FD
 
-#define GLX_RENDERER_VIDEO_MEMORY_MESA   0x8187
+#define GL_GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX          0x9047
+#define GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX    0x9048
+#define GL_GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX  0x9049
+#define GL_GPU_MEMORY_INFO_EVICTION_COUNT_NVX            0x904A
+#define GL_GPU_MEMORY_INFO_EVICTED_MEMORY_NVX            0x904B
 
 static GLint extension_hijack_index = 0;
 
 static const char * extension_hijack[] = {
-	"GL_ATI_meminfo" //, "GL_NVX_gpu_memory_info"
+	#if EXPOSE_GL_ATI_meminfo
+	"GL_ATI_meminfo",
+	#endif
+	#if EXPOSE_GL_NVX_gpu_memory_info
+	"GL_NVX_gpu_memory_info"
+	#endif
 };
 
 typedef void (*glGetIntegerv_t)(GLenum  pname,  GLint *  params);
 typedef int (*glXQCRIMESA_t)(int attribute, unsigned int * value);
 
+static GLint get_total_vram() {
+	unsigned total_vram = 0;
+	glXQCRIMESA_t real_glXQCRIMESA
+		= (glXQCRIMESA_t)get_proc("glXQueryCurrentRendererIntegerMESA");
+	if(real_glXQCRIMESA) {
+		(void)real_glXQCRIMESA(GLX_RENDERER_VIDEO_MEMORY_MESA, &total_vram);
+	}
+	return total_vram * 1024; // MiB -> KiB
+}
+
 void glGetIntegerv(GLenum pname, GLint * params) {
 	
 	switch(pname) {
+		
+		#if EXPOSE_GL_ATI_meminfo
+		
 		case GL_VBO_FREE_MEMORY_ATI:
 		case GL_TEXTURE_FREE_MEMORY_ATI:
 		case GL_RENDERBUFFER_FREE_MEMORY_ATI: {
-			unsigned free = 0;
-			glXQCRIMESA_t real_glXQCRIMESA
-				= (glXQCRIMESA_t)get_proc("glXQueryCurrentRendererIntegerMESA");
-			if(real_glXQCRIMESA) {
-				(void)real_glXQCRIMESA(GLX_RENDERER_VIDEO_MEMORY_MESA, &free);
-			}
-			free *= 1024; // MiB -> KiB
-			params[0] = free; // total memory free in the pool
-			params[1] = free; // largest available free block in the pool
-			params[2] = free; // total auxiliary memory free
-			params[3] = free; // largest auxiliary free block
-			printf("[hook] fixed AMD_meminfo 0x%08x = %d\n", (int)pname, (int)params[0]);
+			GLint total_vram = get_total_vram();
+			params[0] = total_vram; // total memory free in the pool
+			params[1] = total_vram; // largest available free block in the pool
+			params[2] = total_vram; // total auxiliary memory free
+			params[3] = total_vram; // largest auxiliary free block
+			printf("[hook] fixed ATI_meminfo 0x%08x = %d\n", (int)pname, (int)params[0]);
 			break;
 		}
+		
+		#endif
+		
+		#if EXPOSE_GL_NVX_gpu_memory_info
+		
+		case GL_GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX:
+		case GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX:
+		case GL_GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX: {
+			params[0] = get_total_vram();
+			break;
+		}
+		
+		case GL_GPU_MEMORY_INFO_EVICTION_COUNT_NVX:
+		case GL_GPU_MEMORY_INFO_EVICTED_MEMORY_NVX: {
+			params[0] = 0;
+			break;
+		}
+		
+		#endif
+		
 		case GL_NUM_EXTENSIONS: {
 			glGetIntegerv_t real_glGetIntegerv = (glGetIntegerv_t)get_proc("glGetIntegerv");
 			if(real_glGetIntegerv) {
@@ -125,12 +167,14 @@ void glGetIntegerv(GLenum pname, GLint * params) {
 			printf("[hook] fixed GL_NUM_EXTENSIONS​ = %d\n", (int)params[0]);
 			break;
 		}
+		
 		default: {
 			glGetIntegerv_t real_glGetIntegerv = (glGetIntegerv_t)get_proc("glGetIntegerv");
 			if(real_glGetIntegerv) {
 				real_glGetIntegerv(pname, params);
 			}
 		}
+		
 	}
 	
 }
@@ -176,7 +220,7 @@ const GLubyte * glGetString(GLenum name) {
 				m += en;
 			}
 			fixed[m] = '\0';
-			str = fixed; // leak
+			str = fixed; // WARNING: memory leak
 		}
 	}
 	
@@ -227,7 +271,7 @@ void hook_init(void) {
 		real_glXGetProcAddress, real_glXGetProcAddressARB);
 }
 
-void * my_dlsym(const char * name, const char * hook);
+static void * my_dlsym(const char * name, const char * hook);
 
 void * dlsym(void * handle, const char * name) {
 	
@@ -288,16 +332,16 @@ funcptr_t glXGetProcAddressARB(const GLubyte * procName) {
 	}
 }
 
-void * my_dlsym(const char * name, const char * hook) {
+static void * my_dlsym(const char * name, const char * hook) {
 	
 	if(name) {
 		if(!strcmp(name, "glGetIntegerv")) {
 			printf("[hook] hooked %s via %s\n", name, hook);
 			return (void *)glGetIntegerv;
-		} if(!strcmp(name, "glGetStringi")) {
+		} else if(!strcmp(name, "glGetStringi")) {
 			printf("[hook] hooked %s via %s\n", name, hook);
 			return (void *)glGetStringi;
-		} if(!strcmp(name, "glGetString")) {
+		} else if(!strcmp(name, "glGetString")) {
 			printf("[hook] hooked %s via %s\n", name, hook);
 			return (void *)glGetString;
 		} else if(!strcmp(name, "glXGetProcAddress")) {
