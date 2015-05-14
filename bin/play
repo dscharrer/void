@@ -4,7 +4,7 @@
 # Usage: play [mplayer2-flags] paths...
 
 paths=()
-flags=(--msg-color --fs --cache 8000 --no-sub --alang eng --cache-pause=no)
+flags=(--msg-color --fs --cache=8000 --no-sub --alang eng --cache-pause=no)
 #flags=(-msgmodule -msgcolor -fs -cache 8000)
 find_args=( -type f )
 
@@ -24,8 +24,9 @@ for arg in "$@" ; do
 	
 	if [ $mode != 2 ] ; then
 		case "$arg" in
-			--) mode=2 ; continue ;;
-			-*) mode=1 ; flags+=("$arg") ; continue ;;
+			--)    mode=2 ; continue ;;
+			--*=*) mode=0 ; flags+=("$arg") ; continue ;;
+			-*)    mode=1 ; flags+=("$arg") ; continue ;;
 		esac
 	fi
 	
