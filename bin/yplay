@@ -4,7 +4,7 @@
 # Usage: yplay <youtube-url> [mplayer2-args...]
 IFS='
 ' lines=(
-	$(youtube-dl -eg --prefer-insecure -f best "$1")
+	$(youtube-dl -eg --prefer-insecure -f best -- "$1")
 )
 
 exec play --cache=200000 --title="${lines[0]}" "${lines[1]}" "${@:2}"
