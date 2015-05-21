@@ -3,8 +3,32 @@
 #include <type_traits>
 #include <typeinfo>
 
+template <size_t N, typename Type = char>
+struct array;
+
+// TODO use boost::mpl::list instead?
 template <typename Type, Type... values>
-struct meta_array;
+struct meta_array {
+	
+	typedef Type value_type;
+	
+	static constexpr size_t length = sizeof...(values);
+	
+	constexpr meta_array() = default;
+	
+	template <Type c>
+	struct append {
+		typedef meta_array<Type, values..., c> type;
+	};
+	
+	template <Type c>
+	struct prepend {
+		typedef meta_array<Type, c, values...> type;
+	};
+	
+	static constexpr array<length, Type> data();
+	
+};
 
 template <typename Type, Type start, Type end, bool valid = (end > start)>
 struct meta_sequence {
@@ -23,8 +47,6 @@ constexpr size_t cstrlen(const char (&arg)[N], size_t i = 0) {
 }
 
 
-template <size_t N, typename Type = char>
-struct array;
 
 template <typename array, size_t N = array::size, size_t I = 0>
 struct array_helper {
@@ -94,52 +116,52 @@ struct array {
 	template <size_t M>
 	static constexpr array create(const Type (&str)[M]) { return array(str, indices()); }
 	
-	constexpr Type operator[](size_t i) { return data[i]; }
+	constexpr Type operator[](size_t i) const { return data[i]; }
 	
-	constexpr array<N + 1, Type> operator+(Type c) {
+	constexpr array<N + 1, Type> operator+(Type c) const {
 		return array<N + 1, Type>(data, indices(), c);
 	}
 	
 	template <size_t M>
-	constexpr array<N + M - 1, Type> operator+(const Type (&str)[M]) {
+	constexpr array<N + M - 1, Type> operator+(const Type (&str)[M]) const {
 		return array<N + M - 1,Type>(data, indices(), str, typename array<M - 1>::indices());
 	}
 	
 	template <size_t M>
-	constexpr array<N + M, Type> operator+(const array<M, Type> & o) {
+	constexpr array<N + M, Type> operator+(const array<M, Type> & o) const {
 		return array<N + M, Type>(data, indices(), o.data, typename array<M>::indices());
 	}
 	
 	template <size_t start, size_t end = size>
-	constexpr array<end - start, Type> substr() {
+	constexpr array<end - start, Type> substr() const {
 		return array<end - start, Type>(data, typename meta_sequence<size_t, start, end>::type());
 	}
 	
 	template <size_t length>
-	constexpr array<length, Type> tail() {
+	constexpr array<length, Type> tail() const {
 		return substr<size - length, size>();
 	}
 	
 	template <size_t length>
-	constexpr array<length, Type> substr(size_t start) {
+	constexpr array<length, Type> substr(size_t start) const {
 		return array_helper<array, size - length>::substr(data, start);
 	}
 	
 	template <size_t i>
-	constexpr array set(Type c) {
+	constexpr array set(Type c) const {
 		return array(data, typename meta_sequence<size_t, 0, i>::type(), c,
 		             data, typename meta_sequence<size_t, i + 1, size>::type());
 	}
 	
-	constexpr array set(size_t i, Type c) {
+	constexpr array set(size_t i, Type c) const {
 		return array_helper<array>::set(data, i, c);
 	}
 	
-	constexpr operator const data_type &() {
+	constexpr operator const data_type &() const {
 		return data;
 	}
 	
-	constexpr array swap(size_t i, size_t j) {
+	constexpr array swap(size_t i, size_t j) const {
 		return array(data, indices()).set(i, data[j]).set(j, data[i]);
 	}
 	
@@ -162,31 +184,15 @@ constexpr array<N - 1 + M, Type> operator+(const Type (&str)[N], const array<M, 
 	return array<N - 1 + M, Type>(str, typename array<N - 1>::indices(), a.data, typename array<M>::indices());
 }
 
-// TODO use boost::mpl::list instead?
+
+
 template <typename Type, Type... values>
-struct meta_array {
-	
-	typedef Type value_type;
-	
-	static constexpr size_t length = sizeof...(values);
-	
-	constexpr meta_array() = default;
-	
-	template <Type c>
-	struct append {
-		typedef meta_array<Type, values..., c> type;
-	};
-	
-	template <Type c>
-	struct prepend {
-		typedef meta_array<Type, c, values...> type;
-	};
-	
-	static constexpr array<length, Type> data() {
-		return array<length, Type>(meta_array());
-	}
-	
-};
+constexpr array<meta_array<Type, values...>::length, Type>
+meta_array<Type, values...>::data() {
+	return array<length, Type>(meta_array());
+}
+
+
 
 template <typename Type, size_t N>
 constexpr array<N, Type> reverse(const array<N, Type> & input, size_t i = 0) {
@@ -308,12 +314,6 @@ struct DataHolder {
 };
 typedef array_to_meta_array<DataHolder>::type::append<'!'>::type my_meta_array;
 
-struct DataHolder2 {
-	static constexpr char data[] = (my_meta_array::data() + " OK?" + '\0').data;
-};
-typedef array_to_meta_array<DataHolder2>::type mixing_arrays;
-
-
 
 
 template <int N>
@@ -325,15 +325,13 @@ constexpr auto helloword = ">|" + cstr("Hello").set(1, '3') + " " + cstr("World!
 
 constexpr auto reversed = reverse(helloword);
 
-constexpr char constr[helloword.size] = (helloword.substr<1, helloword.size - 1>() + "?" + '\0').data;
 
-constexpr char mydata[] = (helloword + '\0').data;
+constexpr static auto stra = cstr("uy2b4508h43508hb23085hb023bg4h") + 'b' + '\0';
+constexpr static auto strb = cstr("uy2b4508h43508hb23085hb023bg4h") + 'b' + '\0';
 
 int main() {
 	
-	std::cout << typeid(constr).name() << ' ' << helloword[helloword.size - 1] << std::endl;
-	
-	std::cout << constr << std::endl;
+	std::cout << helloword << std::endl;
 	
 	std::cout << meta_array<char, 'W', 'T', 'F', '.', '\0'>::data() << std::endl;
 	
@@ -350,9 +348,12 @@ int main() {
 	
 	std::cout << my_meta_array::data() + '\0' << std::endl;
 	
-	std::cout << mixing_arrays::data() + '\0' << std::endl;
+	std::cout << stra << std::endl;
+	std::cout << strb << std::endl;
 	
-	std::cout << mydata << std::endl;
+	std::cout << cstr("uy2b4508h43508hb23085hb023bg4h") + 'a' + '\0' << std::endl;
+	
+	std::cout << cstr("uy2b4508h43508hb23085hb023bg4h") + 'a' + '\0' << std::endl;
 	
 	foo<cstrlen("foobar")>::print();
 	
