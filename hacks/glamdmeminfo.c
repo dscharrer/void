@@ -111,7 +111,7 @@ static const char * extension_hijack[] = {
 	"GL_ATI_meminfo",
 	#endif
 	#if EXPOSE_GL_NVX_gpu_memory_info
-	"GL_NVX_gpu_memory_info"
+	"GL_NVX_gpu_memory_info",
 	#endif
 };
 
