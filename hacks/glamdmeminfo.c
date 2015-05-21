@@ -37,9 +37,9 @@ soname="$name.so"
 
 #/* Compile the LD_PRELOAD library */
 for arch in 32 64 ; do
-	mkdir -p "$out/$arch"
 	if [ ! -f "$out/$arch/$soname" ] || [ "$self" -nt "$out/$arch/$soname" ] ; then
 		echo "Compiling $arch-bit $soname..."
+		mkdir -p "$out/$arch"
 		export HACK_SOURCE="$self"
 		export HACK_LIB="$out/$arch/$soname"
 		export PKG_CONFIG_PATH="/usr/lib$arch/pkgconfig:/usr/lib/pkgconfig"
