@@ -5,6 +5,16 @@
 # * size and behave stupidly when those are not available.
 # * This implementation requires the GLX_MESA_query_renderer extension.
 # *
+# * This hack may not work perfectly: The Mesa extension only provides the total VRAM
+# * size while the AMD and NVidia extensions (additionally) report free VRAM as well
+# * as other information. We pretend free VRAM == total VRAM, which works well enough
+# * as most games only query for the memory size on startup anyway.
+# *
+# * Known uses:
+# *  - Pillars of Eternity: fixes blurry textures after leveling up
+# *    https://forums.obsidian.net/topic/71852-linux-crashes-after-character-creation/
+# *  - Meltdown: blurry UI elements after level change
+# *
 # * Usage: sh glamdmeminfo.c [path/to/game/binary]
 # *
 # * You can copy this file to the game's Steam install and then set the
@@ -130,6 +140,7 @@ void glGetIntegerv(GLenum pname, GLint * params) {
 		case GL_TEXTURE_FREE_MEMORY_ATI:
 		case GL_RENDERBUFFER_FREE_MEMORY_ATI: {
 			GLint total_vram = get_total_vram();
+			// WARNING: assuming free VRAM = total VRAM
 			params[0] = total_vram; // total memory free in the pool
 			params[1] = total_vram; // largest available free block in the pool
 			params[2] = total_vram; // total auxiliary memory free
@@ -145,12 +156,14 @@ void glGetIntegerv(GLenum pname, GLint * params) {
 		case GL_GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX:
 		case GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX:
 		case GL_GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX: {
+			// WARNING: assuming free VRAM = total VRAM
 			params[0] = get_total_vram();
 			break;
 		}
 		
 		case GL_GPU_MEMORY_INFO_EVICTION_COUNT_NVX:
 		case GL_GPU_MEMORY_INFO_EVICTED_MEMORY_NVX: {
+			// WARNING: assuming VRAM was never full
 			params[0] = 0;
 			break;
 		}
