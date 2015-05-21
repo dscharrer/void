@@ -115,7 +115,6 @@ static const char * extension_hijack[] = {
 	#endif
 };
 
-typedef void (*glGetIntegerv_t)(GLenum  pname,  GLint *  params);
 typedef int (*glXQCRIMESA_t)(int attribute, unsigned int * value);
 
 static GLint get_total_vram() {
@@ -128,7 +127,9 @@ static GLint get_total_vram() {
 	return total_vram * 1024; // MiB -> KiB
 }
 
-void glGetIntegerv(GLenum pname, GLint * params) {
+typedef void (*glGetIntegerv_t)(GLenum  pname,  GLint *  params);
+
+static void redir_glGetIntegerv(GLenum pname, GLint * params) {
 	
 	switch(pname) {
 		
@@ -189,10 +190,13 @@ void glGetIntegerv(GLenum pname, GLint * params) {
 	}
 	
 }
+void glGetIntegerv(GLenum pname, GLint * params) {
+	redir_glGetIntegerv(pname, params);
+}
 
 typedef const GLubyte * (*glGetStringi_t)(GLenum name, GLuint index);
 
-const GLubyte * glGetStringi(GLenum name, GLuint index) {
+static const GLubyte * redir_glGetStringi(GLenum name, GLuint index) {
 	
 	unsigned n = sizeof(extension_hijack)/sizeof(*extension_hijack);
 	if(name == GL_EXTENSIONS && index >= (GLuint)extension_hijack_index
@@ -205,10 +209,13 @@ const GLubyte * glGetStringi(GLenum name, GLuint index) {
 	glGetStringi_t real_glGetStringi = (glGetStringi_t)get_proc("glGetStringi");
 	return real_glGetStringi ? real_glGetStringi(name, index) : NULL;
 }
+const GLubyte * glGetStringi(GLenum name, GLuint index) {
+	return redir_glGetStringi(name, index);
+}
 
 typedef const GLubyte * (*glGetString_t)(GLenum name);
 
-const GLubyte * glGetString(GLenum name) {
+static const GLubyte * redir_glGetString(GLenum name) {
 	
 	glGetString_t real_glGetString = (glGetString_t)get_proc("glGetString");
 	const GLubyte * str = (real_glGetString ? real_glGetString(name) : NULL);
@@ -236,6 +243,9 @@ const GLubyte * glGetString(GLenum name) {
 	}
 	
 	return str;
+}
+const GLubyte * glGetString(GLenum name) {
+	return redir_glGetString(name);
 }
 
 // Hooking boilerplate code follows
@@ -289,7 +299,7 @@ static void hook_init(void) {
 
 static void * my_dlsym(const char * name, const char * hook);
 
-void * dlsym(void * handle, const char * name) {
+static void * redir_dlsym(void * handle, const char * name) {
 	
 	void * ptr = my_dlsym(name, "dlsym");
 	if(ptr) {
@@ -302,9 +312,11 @@ void * dlsym(void * handle, const char * name) {
 		return NULL;
 	}
 }
+void * dlsym(void * handle, const char * name) {
+	return redir_dlsym(handle, name);
+}
 
-
-void * dlvsym(void * handle, const char * symbol, const char * version) {
+static void * redir_dlvsym(void * handle, const char * symbol, const char * version) {
 	
 	void * ptr = my_dlsym(symbol, "dlvsym");
 	if(ptr) {
@@ -317,8 +329,11 @@ void * dlvsym(void * handle, const char * symbol, const char * version) {
 		return NULL;
 	}
 }
+void * dlvsym(void * handle, const char * symbol, const char * version) {
+	return redir_dlvsym(handle, symbol, version);
+}
 
-funcptr_t glXGetProcAddress(const GLubyte * procName) {
+static funcptr_t redir_glXGetProcAddress(const GLubyte * procName) {
 	
 	void * ptr = my_dlsym((const char *)procName, "glXGetProcAddress");
 	if(ptr) {
@@ -331,8 +346,11 @@ funcptr_t glXGetProcAddress(const GLubyte * procName) {
 		return NULL;
 	}
 }
+funcptr_t glXGetProcAddress(const GLubyte * procName) {
+	return redir_glXGetProcAddress(procName);
+}
 
-funcptr_t glXGetProcAddressARB(const GLubyte * procName) {
+static funcptr_t redir_glXGetProcAddressARB(const GLubyte * procName) {
 	
 	void * ptr = my_dlsym((const char *)procName, "glXGetProcAddressARB");
 	if(ptr) {
@@ -347,23 +365,34 @@ funcptr_t glXGetProcAddressARB(const GLubyte * procName) {
 		return NULL;
 	}
 }
+funcptr_t glXGetProcAddressARB(const GLubyte * procName) {
+	return redir_glXGetProcAddressARB(procName);
+}
 
 static void * my_dlsym(const char * name, const char * hook) {
 	
 	if(name) {
 		if(!strcmp(name, "glGetIntegerv")) {
 			fprintf(stderr, LOG_PREFIX "hooked %s via %s\n", name, hook);
-			return (void *)glGetIntegerv;
+			return (void *)redir_glGetIntegerv;
 		} else if(!strcmp(name, "glGetStringi")) {
 			fprintf(stderr, LOG_PREFIX "hooked %s via %s\n", name, hook);
-			return (void *)glGetStringi;
+			return (void *)redir_glGetStringi;
 		} else if(!strcmp(name, "glGetString")) {
 			fprintf(stderr, LOG_PREFIX "hooked %s via %s\n", name, hook);
-			return (void *)glGetString;
-		} else if(!strcmp(name, "glXGetProcAddress")) {
-			return (void *)glXGetProcAddress;
-		} else if(!strcmp(name, "glXGetProcAddressARB")) {
-			return (void *)glXGetProcAddressARB;
+			return (void *)redir_glGetString;
+		}
+		if(!strcmp(name, "dlsym")) {
+			return (void *)redir_dlsym;
+		}
+		if(!strcmp(name, "dlvsym")) {
+			return (void *)redir_dlvsym;
+		}
+		if(!strcmp(name, "glXGetProcAddress")) {
+			return (void *)redir_glXGetProcAddress;
+		}
+		if(!strcmp(name, "glXGetProcAddressARB")) {
+			return (void *)redir_glXGetProcAddressARB;
 		}
 	}
 	
