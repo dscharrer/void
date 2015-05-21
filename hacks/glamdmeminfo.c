@@ -280,9 +280,11 @@ void hook_init(void) {
 			real_glXGetProcAddress = real_glXGetProcAddressARB;
 		}
 	}
-	fprintf(stderr, LOG_PREFIX "attached to %s: %p %p %p %p\n",
-		program_invocation_short_name, real_dlsym, real_dlvsym,
-		real_glXGetProcAddress, real_glXGetProcAddressARB);
+	if(!real_dlsym || !real_dlvsym || !real_glXGetProcAddress || !real_glXGetProcAddressARB) {
+		fprintf(stderr, LOG_PREFIX "attached to %s: %p %p %p %p\n",
+		               program_invocation_short_name, real_dlsym, real_dlvsym,
+		               real_glXGetProcAddress, real_glXGetProcAddressARB);
+	}
 }
 
 static void * my_dlsym(const char * name, const char * hook);
