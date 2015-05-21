@@ -40,16 +40,14 @@ for arch in 32 64 ; do
 	if [ ! -f "$out/$arch/$soname" ] || [ "$self" -nt "$out/$arch/$soname" ] ; then
 		echo "Compiling $arch-bit $soname..."
 		mkdir -p "$out/$arch"
-		export HACK_SOURCE="$self"
-		export HACK_LIB="$out/$arch/$soname"
-		export PKG_CONFIG_PATH="/usr/lib$arch/pkgconfig:/usr/lib/pkgconfig"
+		pkg_config_path="/usr/lib$arch/pkgconfig:/usr/lib/pkgconfig"
 		case $arch in
-			32) export PKG_CONFIG_PATH="/usr/lib/i386-linux-gnu/pkgconfig/:$PKG_CONFIG_PATH" ;;
-			64) export PKG_CONFIG_PATH="/usr/lib/x86_64-linux-gnu/pkgconfig/:$PKG_CONFIG_PATH" ;;
+			32) pkg_config_path="/usr/lib/i386-linux-gnu/pkgconfig/:$PKG_CONFIG_PATH" ;;
+			64) pkg_config_path="/usr/lib/x86_64-linux-gnu/pkgconfig/:$PKG_CONFIG_PATH" ;;
 		esac
-		command="${CC:-gcc} -shared -std=c99 -fPIC -m$arch -x c -O3 -Wall -Wextra"
-		command="$command \"\$HACK_SOURCE\" -o \"\$HACK_LIB\""
-		command="$command $(pkg-config --cflags --libs gl)"
+		command='"${CC:-gcc}" -shared -std=c99 -fPIC -m$arch -x c -O3 -Wall -Wextra'
+		command+=' "$self" -o "$out/$arch/$soname"'
+		command+=" $(PKG_CONFIG_PATH="$pkg_config_path" pkg-config --cflags --libs gl)"
 		eval "$command" || exit 1
 	fi
 	export LD_LIBRARY_PATH="$out/$arch:$LD_LIBRARY_PATH"
