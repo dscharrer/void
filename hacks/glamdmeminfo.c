@@ -257,8 +257,8 @@ void * __libc_dlsym(void * handle, const char * name);
 
 extern char * program_invocation_short_name; // provided by glibc
 
-void hook_init(void) __attribute__((constructor));
-void hook_init(void) {
+static void hook_init(void) __attribute__((constructor));
+static void hook_init(void) {
 	// Get the original dlsym (__libc_dlsym doesn't support RTLD_NEXT)
 	void * libdl = __libc_dlopen("libdl.so.2");
 	if(libdl) {
