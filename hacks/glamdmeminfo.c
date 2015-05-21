@@ -46,7 +46,7 @@ for arch in 32 64 ; do
 			64) pkg_config_path="/usr/lib/x86_64-linux-gnu/pkgconfig/:$PKG_CONFIG_PATH" ;;
 		esac
 		command='"${CC:-gcc}" -shared -std=c99 -fPIC -m$arch -x c -O3 -Wall -Wextra'
-		command+=' "$self" -o "$out/$arch/$soname"'
+		command+=' "$self" -o "$out/$arch/$soname" -DLOG_PREFIX="\"[$name] \""'
 		command+=" $(PKG_CONFIG_PATH="$pkg_config_path" pkg-config --cflags --libs gl)"
 		eval "$command" || exit 1
 	fi
@@ -143,7 +143,7 @@ void glGetIntegerv(GLenum pname, GLint * params) {
 			params[1] = total_vram; // largest available free block in the pool
 			params[2] = total_vram; // total auxiliary memory free
 			params[3] = total_vram; // largest auxiliary free block
-			printf("[hook] fixed ATI_meminfo 0x%08x = %d\n", (int)pname, (int)params[0]);
+			fprintf(stderr, LOG_PREFIX "fixed ATI_meminfo 0x%08x = %d\n", (int)pname, (int)params[0]);
 			break;
 		}
 		
@@ -175,7 +175,7 @@ void glGetIntegerv(GLenum pname, GLint * params) {
 			}
 			unsigned n = sizeof(extension_hijack)/sizeof(*extension_hijack);
 			params[0] = extension_hijack_index + n;
-			printf("[hook] fixed GL_NUM_EXTENSIONS​ = %d\n", (int)params[0]);
+			fprintf(stderr, LOG_PREFIX "fixed GL_NUM_EXTENSIONS = %d\n", (int)params[0]);
 			break;
 		}
 		
@@ -198,7 +198,7 @@ const GLubyte * glGetStringi(GLenum name, GLuint index) {
 	if(name == GL_EXTENSIONS && index >= (GLuint)extension_hijack_index
 	   && index < (GLuint)extension_hijack_index + n) {
 		const char * str = extension_hijack[index - extension_hijack_index];
-		printf("[hook] fixed GL_EXTENSIONS​[%d] = %s\n", (int)index, str);
+		fprintf(stderr, LOG_PREFIX "fixed GL_EXTENSIONS[%d] = %s\n", (int)index, str);
 		return (const GLubyte *)str;
 	}
 	
@@ -255,6 +255,8 @@ static glXGetProcAddress_t real_glXGetProcAddressARB;
 void * __libc_dlopen_mode(const char *__name, int __mode);
 void * __libc_dlsym(void * handle, const char * name);
 
+extern char * program_invocation_short_name; // provided by glibc
+
 void hook_init(void) __attribute__((constructor));
 void hook_init(void) {
 	// Get the original dlsym (__libc_dlsym doesn't support RTLD_NEXT)
@@ -278,7 +280,8 @@ void hook_init(void) {
 			real_glXGetProcAddress = real_glXGetProcAddressARB;
 		}
 	}
-	printf("[hook] attached %p %p %p %p\n", real_dlsym, real_dlvsym,
+	fprintf(stderr, LOG_PREFIX "attached to %s: %p %p %p %p\n",
+		program_invocation_short_name, real_dlsym, real_dlvsym,
 		real_glXGetProcAddress, real_glXGetProcAddressARB);
 }
 
@@ -347,13 +350,13 @@ static void * my_dlsym(const char * name, const char * hook) {
 	
 	if(name) {
 		if(!strcmp(name, "glGetIntegerv")) {
-			printf("[hook] hooked %s via %s\n", name, hook);
+			fprintf(stderr, LOG_PREFIX "hooked %s via %s\n", name, hook);
 			return (void *)glGetIntegerv;
 		} else if(!strcmp(name, "glGetStringi")) {
-			printf("[hook] hooked %s via %s\n", name, hook);
+			fprintf(stderr, LOG_PREFIX "hooked %s via %s\n", name, hook);
 			return (void *)glGetStringi;
 		} else if(!strcmp(name, "glGetString")) {
-			printf("[hook] hooked %s via %s\n", name, hook);
+			fprintf(stderr, LOG_PREFIX "hooked %s via %s\n", name, hook);
 			return (void *)glGetString;
 		} else if(!strcmp(name, "glXGetProcAddress")) {
 			return (void *)glXGetProcAddress;
