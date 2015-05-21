@@ -1,6 +1,6 @@
 #if 0
 
-#//  The Steam overlay breaks this :(
+#// See https://bugs.freedesktop.org/show_bug.cgi?id=66067
 
 self="$(readlink -f "$(which "$0")")"
 name="$(basename "$self" .c)"
