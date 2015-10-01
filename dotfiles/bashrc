@@ -31,6 +31,7 @@ alias mplayer2='mplayer2 -msgcolor'
 alias nokeygrab=~/.void/x11/nokeygrab.c
 enter() { mkdir -p "$1" && cd "$1"; }
 alias cdg='cd "$(git rev-parse --show-toplevel)"'
+alias wget='wget --content-disposition --no-clobber'
 
 # Fix ls ignoring LC_TIME=en_DK.utf-8
 export TIME_STYLE=long-iso
