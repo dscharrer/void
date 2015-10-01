@@ -1,0 +1,93 @@
+#!/bin/bash
+
+disable_color() {
+	red='' ; green='' ; yellow='' ; blue='' ; pink='' ; cyan='' ; white=''
+	dim_red='' ; dim_green='' ; dim_yellow='' ; dim_blue='' ; dim_pink=''
+	dim_cyan='' ; dim_white='' ; reset=''
+}
+disable_color
+if [ -t 1 ] && [ "$(tput colors 2> /dev/null)" != -1 ] ; then
+	
+	       red="$(printf '\033[1;31m')"
+	     green="$(printf '\033[1;32m')"
+	    yellow="$(printf '\033[1;33m')"
+	      blue="$(printf '\033[1;34m')"
+	      pink="$(printf '\033[1;35m')"
+	      cyan="$(printf '\033[1;36m')"
+	     white="$(printf '\033[1;37m')"
+	
+	   dim_red="$(printf '\033[0;31m')"
+	 dim_green="$(printf '\033[0;32m')"
+	dim_yellow="$(printf '\033[0;33m')"
+	  dim_blue="$(printf '\033[0;34m')"
+	  dim_pink="$(printf '\033[0;35m')"
+	  dim_cyan="$(printf '\033[0;36m')"
+	 dim_white="$(printf '\033[0;37m')"
+	
+	     reset="$(printf '\033[m')"
+fi
+
+paths=( "$@" )
+
+[ ${#paths[@]} = 0 ] && paths='.'
+
+for tool in metaflac ogginfo vorbisgain mp3gain aacgain ; do
+	if ! command -v "$tool" &> /dev/null ; then
+		printf "${red}Missing %s!${reset}\n" "$tool"
+		exit 1
+	fi
+done
+
+for path in "${paths[@]}" ; do
+	
+	while IFS= read -r -d '' file; do
+		
+		case "$file" in
+			
+			*.flac)
+				
+				if ! metaflac --list "$file" | grep REPLAYGAIN &> /dev/null ; then
+					printf "Updating ${white}%s${reset}…\n" "$file"
+					metaflac --add-replay-gain "$file"
+				fi
+				
+			;;
+			
+			*.ogg)
+				
+				if ! ogginfo "$file" | grep REPLAYGAIN &> /dev/null ; then
+					printf "Updating ${white}%s${reset}…\n" "$file"
+					vorbisgain --fast "$file"
+				fi
+				
+			;;
+			
+			*.mp3)
+				
+				if ! mp3gain -s c "$file" | grep 'dB change' &> /dev/null ; then
+					printf "Updating ${white}%s${reset}…\n" "$file"
+					mp3gain "$file"
+				fi
+				
+			;;
+			
+			*.mp4)
+				
+				if ! aacgain -s c "$file" | grep 'dB change' &> /dev/null ; then
+					printf "Updating ${white}%s${reset}…\n" "$file"
+					aacgain "$file"
+				fi
+				
+			;;
+			
+			*.png|*.jpg|*.jpeg|*.directory|*.txt|*.pdf) ;;
+			
+			*)
+				printf "${red}!! Unsupported file type: ${white}%s${reset}\n" "$file"
+			;;
+			
+		esac
+		
+	done < <(find -L "$path" "${find_args[@]}" -type f -print0)
+	
+done
