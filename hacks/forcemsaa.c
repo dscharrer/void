@@ -138,7 +138,7 @@ static int has_value(int fbconfig, int attrib) {
 	}
 	
 	fprintf(stderr, LOG_PREFIX "!! unsupported glXChooseVisual attrib: 0x%x\n", attrib);
-	return 0; // lets hope that if there is a value, it doesn match one a known attrib
+	return 0; // lets hope that if there is a value, it doesn match a known attrib
 }
 
 static int * fix_attrib_list(const int * attrib_list, int fbconfig) {
