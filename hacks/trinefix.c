@@ -2,24 +2,30 @@
 
 #// See https://bugs.freedesktop.org/show_bug.cgi?id=66067
 
-self="$(readlink -f "$(which "$0")")"
-name="$(basename "$self" .c)"
-out="$(dirname "$self")/$name"
+self="$(command -v "$0")" ; self="${self:-$0}" ; self="$(readlink -f "$self")"
+name="${self##*/}" ; name="${name%.c}"
+out="${self%/*}/$name"
 soname="$name.so"
 
-#// Compile the LD_PRELOAD library
+#/* Compile the LD_PRELOAD library */
 for arch in 32 64 ; do
-	mkdir -p "$out/$arch"
-	if [ "$self" -nt "$out/$arch/$soname" ] ; then
+	if [ ! -f "$out/$arch/$soname" ] || [ "$self" -nt "$out/$arch/$soname" ] ; then
 		echo "Compiling $arch-bit $soname..."
-		gcc -shared -std=c99 -fPIC -m$arch -x c "$self" -o "$out/$arch/$soname" \
-		    -lGL -O3 -Wall -Wextra \
-			|| exit 1
+		mkdir -p "$out/$arch"
+		pkg_config_path="/usr/lib$arch/pkgconfig:/usr/lib/pkgconfig"
+		case $arch in
+			32) pkg_config_path="/usr/lib/i386-linux-gnu/pkgconfig/:$PKG_CONFIG_PATH" ;;
+			64) pkg_config_path="/usr/lib/x86_64-linux-gnu/pkgconfig/:$PKG_CONFIG_PATH" ;;
+		esac
+		command='"${CC:-gcc}" -shared -std=c99 -fPIC -m$arch -x c -O3 -Wall -Wextra'
+		command+=' "$self" -o "$out/$arch/$soname"'
+		command+=" $(PKG_CONFIG_PATH="$pkg_config_path" pkg-config --cflags --libs gl)"
+		eval "$command" || exit 1
 	fi
 	export LD_LIBRARY_PATH="$out/$arch:$LD_LIBRARY_PATH"
 done
 
-#// Run the executable
+#/* Run the executable */
 export LD_PRELOAD="$LD_PRELOAD:$soname" # segfaults with steam overlay if prepended
 [ -z "$1" ] || exec "$@"
 
