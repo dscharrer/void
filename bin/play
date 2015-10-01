@@ -4,7 +4,7 @@
 # Usage: play [mplayer2-flags] paths...
 
 paths=()
-flags=(--msg-color --fs --cache=8000 --no-sub --alang eng --cache-pause=no)
+flags=(--msg-color --fs --cache=8000 --alang eng --cache-pause=no --no-sub-visibility)
 #flags=(-msgmodule -msgcolor -fs -cache 8000)
 find_args=( -type f )
 
