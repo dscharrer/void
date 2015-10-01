@@ -25,6 +25,7 @@ for arg in "$@" ; do
 	if [ $mode != 2 ] ; then
 		case "$arg" in
 			--)    mode=2 ; continue ;;
+			'')    mode=0 ; continue ;;
 			--*=*) mode=0 ; flags+=("$arg") ; continue ;;
 			-*)    mode=1 ; flags+=("$arg") ; continue ;;
 		esac
