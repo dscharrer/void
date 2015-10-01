@@ -24,3 +24,12 @@
 	default = tracking
 [commit]
 	template = ~/.void/git/commit.template
+[sendemail]
+	smtpEncryption = tls
+	smtpServer = mail.constexpr.org
+	smtpUser = daniel@constexpr.org
+	smtpServerPort = 587
+	annotate = yes
+	suppresscc = bodycc
+[credential]
+	helper = store
