@@ -20,6 +20,7 @@ for arch in 32 64 ; do
 		command='"${CC:-gcc}" -shared -std=c99 -fPIC -m$arch -x c -O3 -Wall -Wextra'
 		command+=' "$self" -o "$out/$arch/$soname" -DLOG_PREFIX="\"[$name] \""'
 		command+=" $(PKG_CONFIG_PATH="$pkg_config_path" pkg-config --cflags --libs gl)"
+		command+=" -DDUMP_SHADERS=${TRINEFIX_DUMP_SHADERS:-0}"
 		eval "$command" || exit 1
 	fi
 	export LD_LIBRARY_PATH="$out/$arch:$LD_LIBRARY_PATH"
@@ -46,6 +47,10 @@ exit
 #include <GL/gl.h>
 
 
+#ifndef DUMP_SHADERS
+#define DUMP_SHADERS 0
+#endif
+
 // "Fix" ARB shaders
 
 typedef void(*funcptr_t)();
@@ -58,6 +63,17 @@ typedef void (*glProgramStringARB_t)(GLenum target, GLenum format, GLsizei len,
 void glProgramStringARB(GLenum target, GLenum format, GLsizei len, const void * string) {
 	
 	char * str = strdup((const char *)string);
+	
+	#if DUMP_SHADERS
+	if(strstr(str, " SHADOW2D;") != NULL) {
+		fprintf(stderr, "------------------------------------------------------\n");
+		GLint name = 0;
+		glGetProgramivARB(target, GL_PROGRAM_BINDING_ARB, &name);
+		fprintf(stderr, "program %d:\n", name);
+		fprintf(stderr, "%s\n", str);
+		fprintf(stderr, "------------------------------------------------------\n");
+	}
+	#endif
 	
 	// The interesting part: replace all SHADOW2D samplers with 2D samplers
 	for(char * result = str; (result = strstr(result, " SHADOW2D;")) != NULL; ++result) {
