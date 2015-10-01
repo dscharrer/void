@@ -60,7 +60,7 @@ static glXGetProcAddress_t real_glXGetProcAddress;
 typedef void (*glProgramStringARB_t)(GLenum target, GLenum format, GLsizei len,
                                      const void * string);
 
-void glProgramStringARB(GLenum target, GLenum format, GLsizei len, const void * string) {
+static void redir_glProgramStringARB(GLenum target, GLenum format, GLsizei len, const void * string) {
 	
 	char * str = strdup((const char *)string);
 	
@@ -89,6 +89,10 @@ void glProgramStringARB(GLenum target, GLenum format, GLsizei len, const void * 
 	}
 	
 	free(str);
+}
+
+void glProgramStringARB(GLenum target, GLenum format, GLsizei len, const void * string) {
+	return redir_glProgramStringARB(target, format, len, string);
 }
 
 
@@ -141,9 +145,9 @@ static void hook_init(void) {
 	}
 }
 
-void * my_dlsym(const char * name, const char * hook);
+static void * my_dlsym(const char * name, const char * hook);
 
-void * dlsym(void * handle, const char * name) {
+static void * redir_dlsym(void * handle, const char * name) {
 	
 	void * ptr = my_dlsym(name, "dlsym");
 	if(ptr) {
@@ -156,9 +160,11 @@ void * dlsym(void * handle, const char * name) {
 		return NULL;
 	}
 }
+void * dlsym(void * handle, const char * name) {
+	return redir_dlsym(handle, name);
+}
 
-
-void * dlvsym(void * handle, const char * symbol, const char * version) {
+static void * redir_dlvsym(void * handle, const char * symbol, const char * version) {
 	
 	void * ptr = my_dlsym(symbol, "dlvsym");
 	if(ptr) {
@@ -171,8 +177,11 @@ void * dlvsym(void * handle, const char * symbol, const char * version) {
 		return NULL;
 	}
 }
+void * dlvsym(void * handle, const char * symbol, const char * version) {
+	return redir_dlvsym(handle, symbol, version);
+}
 
-funcptr_t glXGetProcAddress(const GLubyte * procName) {
+static funcptr_t redir_glXGetProcAddress(const GLubyte * procName) {
 	
 	void * ptr = my_dlsym((const char *)procName, "glXGetProcAddress");
 	if(ptr) {
@@ -185,8 +194,11 @@ funcptr_t glXGetProcAddress(const GLubyte * procName) {
 		return NULL;
 	}
 }
+funcptr_t glXGetProcAddress(const GLubyte * procName) {
+	return redir_glXGetProcAddress(procName);
+}
 
-funcptr_t glXGetProcAddressARB(const GLubyte * procName) {
+static funcptr_t redir_glXGetProcAddressARB(const GLubyte * procName) {
 	
 	void * ptr = my_dlsym((const char *)procName, "glXGetProcAddressARB");
 	if(ptr) {
@@ -201,17 +213,28 @@ funcptr_t glXGetProcAddressARB(const GLubyte * procName) {
 		return NULL;
 	}
 }
+funcptr_t glXGetProcAddressARB(const GLubyte * procName) {
+	return redir_glXGetProcAddressARB(procName);
+}
 
-void * my_dlsym(const char * name, const char * hook) {
+static void * my_dlsym(const char * name, const char * hook) {
 	
 	if(name) {
 		if(!strcmp(name, "glProgramStringARB")) {
 			fprintf(stderr, LOG_PREFIX "hooked %s via %s\n", name, hook);
-			return (void *)glProgramStringARB;
-		} else if(!strcmp(name, "glXGetProcAddress")) {
-			return (void *)glXGetProcAddress;
-		} else if(!strcmp(name, "glXGetProcAddressARB")) {
-			return (void *)glXGetProcAddressARB;
+			return (void *)redir_glProgramStringARB;
+		}
+		if(!strcmp(name, "dlsym")) {
+			return (void *)redir_dlsym;
+		}
+		if(!strcmp(name, "dlvsym")) {
+			return (void *)redir_dlvsym;
+		}
+		if(!strcmp(name, "glXGetProcAddress")) {
+			return (void *)redir_glXGetProcAddress;
+		}
+		if(!strcmp(name, "glXGetProcAddressARB")) {
+			return (void *)redir_glXGetProcAddressARB;
 		}
 	}
 	
