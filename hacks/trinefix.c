@@ -18,7 +18,7 @@ for arch in 32 64 ; do
 			64) pkg_config_path="/usr/lib/x86_64-linux-gnu/pkgconfig/:$PKG_CONFIG_PATH" ;;
 		esac
 		command='"${CC:-gcc}" -shared -std=c99 -fPIC -m$arch -x c -O3 -Wall -Wextra'
-		command+=' "$self" -o "$out/$arch/$soname"'
+		command+=' "$self" -o "$out/$arch/$soname" -DLOG_PREFIX="\"[$name] \""'
 		command+=" $(PKG_CONFIG_PATH="$pkg_config_path" pkg-config --cflags --libs gl)"
 		eval "$command" || exit 1
 	fi
@@ -93,6 +93,8 @@ static glXGetProcAddress_t real_glXGetProcAddressARB;
 void * __libc_dlopen_mode(const char *__name, int __mode);
 void * __libc_dlsym(void * handle, const char * name);
 
+extern char * program_invocation_short_name; // provided by glibc
+
 void hook_init(void) __attribute__((constructor));
 void hook_init(void) {
 	// Get the original dlsym (__libc_dlsym doesn't support RTLD_NEXT)
@@ -116,8 +118,11 @@ void hook_init(void) {
 			real_glXGetProcAddress = real_glXGetProcAddressARB;
 		}
 	}
-	printf("[hook] attached %p %p %p %p\n", real_dlsym, real_dlvsym,
-		real_glXGetProcAddress, real_glXGetProcAddressARB);
+	if(!real_dlsym || !real_dlvsym || !real_glXGetProcAddress || !real_glXGetProcAddressARB) {
+		fprintf(stderr, LOG_PREFIX "attached to %s: %p %p %p %p\n",
+		               program_invocation_short_name, real_dlsym, real_dlvsym,
+		               real_glXGetProcAddress, real_glXGetProcAddressARB);
+	}
 }
 
 void * my_dlsym(const char * name, const char * hook);
@@ -185,7 +190,7 @@ void * my_dlsym(const char * name, const char * hook) {
 	
 	if(name) {
 		if(!strcmp(name, "glProgramStringARB")) {
-			printf("[hook] hooked %s via %s\n", name, hook);
+			fprintf(stderr, LOG_PREFIX "hooked %s via %s\n", name, hook);
 			return (void *)glProgramStringARB;
 		} else if(!strcmp(name, "glXGetProcAddress")) {
 			return (void *)glXGetProcAddress;
