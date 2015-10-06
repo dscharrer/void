@@ -11,9 +11,12 @@
 # * as most games only query for the memory size on startup anyway.
 # *
 # * Known uses:
+# *  - Meltdown: blurry UI elements after level change
+# *
+# * Fixed issues:
 # *  - Pillars of Eternity: fixes blurry textures after leveling up
 # *    https://forums.obsidian.net/topic/71852-linux-crashes-after-character-creation/
-# *  - Meltdown: blurry UI elements after level change
+# *    This hack is no longer needed, PoE can use GLX_MESA_query_renderer directly!
 # *
 # * Usage: sh glamdmeminfo.c [path/to/game/binary]
 # *
