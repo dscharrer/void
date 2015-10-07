@@ -84,6 +84,7 @@ static void * get_proc(const char * name) {
  * Change the following line to "#define PILLARS_FIX_MAP 0" to disable.
  */
 #define PILLARS_FIX_MAP 1
+#define PILLARS_PLAIN_MAP 0 // Change to 1 to stop rendering after the area map background
 
 #if PILLARS_FIX_MAP
 
@@ -92,6 +93,10 @@ typedef void (*glGFAPiv_t)(GLenum target, GLenum attachment, GLenum pname, GLint
 typedef int (*glBegin_t)(GLenum mode);
 
 static GLint old_texture = 0;
+
+#if PILLARS_PLAIN_MAP
+static GLint fog_of_war = 0;
+#endif
 
 static void redir_glBegin(GLenum mode) {
 	
@@ -128,6 +133,10 @@ static void redir_glBegin(GLenum mode) {
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			}
+			
+			#if PILLARS_PLAIN_MAP
+			fog_of_war = texture;
+			#endif
 			
 			old_texture = texture;
 		}
@@ -176,6 +185,71 @@ static void redir_glEnd() {
 void glEnd() {
 	redir_glEnd();
 }
+
+#if PILLARS_PLAIN_MAP
+
+static GLint dont_render_anything = 0;
+
+typedef void (*glDrawElements_t)(GLenum mode, GLsizei count, GLenum type,
+                                 const GLvoid * indices);
+
+static void redir_glDrawElements(GLenum mode, GLsizei count, GLenum type,
+                                 const GLvoid * indices) {
+	
+	if(fog_of_war) {
+		
+		GLint old_texunit;
+		glGetIntegerv(GL_ACTIVE_TEXTURE, &old_texunit);
+		if(old_texunit != GL_TEXTURE0) {
+			glActiveTexture(GL_TEXTURE0);
+		}
+		
+		GLint texture;
+		glGetIntegerv(GL_TEXTURE_BINDING_2D, &texture);
+		if(texture == fog_of_war) {
+			dont_render_anything = 1;
+		}
+		
+		if(old_texunit != GL_TEXTURE0) {
+			glActiveTexture(old_texunit);
+		}
+		
+	}
+	
+	if(dont_render_anything) {
+		return;
+	}
+	
+	static glDrawElements_t real_glDrawElements = 0;
+	if(!real_glDrawElements) {
+		real_glDrawElements = (glDrawElements_t)get_proc("glDrawElements");
+	}
+	real_glDrawElements(mode, count, type, indices);
+	
+}
+void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices) {
+	redir_glDrawElements(mode, count, type, indices);
+}
+
+typedef void (*glXSwapBuffers_t)(Display * dpy, GLXDrawable drawable);
+
+static void redir_glXSwapBuffers(Display * dpy, GLXDrawable drawable) {
+	
+	dont_render_anything = 0;
+	fog_of_war = 0;
+	
+	static glXSwapBuffers_t real_glXSwapBuffers = 0;
+	if(!real_glXSwapBuffers) {
+		real_glXSwapBuffers = (glXSwapBuffers_t)get_proc("glXSwapBuffers");
+	}
+	real_glXSwapBuffers(dpy, drawable);
+	
+}
+void glXSwapBuffers(Display * dpy, GLXDrawable drawable) {
+	redir_glXSwapBuffers(dpy, drawable);
+}
+
+#endif
 
 #endif
 
@@ -464,6 +538,16 @@ static void * my_dlsym(const char * name, const char * hook) {
 		if(!strcmp(name, "glEnd")) {
 			fprintf(stderr, LOG_PREFIX "hooked %s via %s\n", name, hook);
 			return (void *)redir_glEnd;
+		}
+		#endif
+		#if PILLARS_PLAIN_MAP
+		if(!strcmp(name, "glDrawElements")) {
+			fprintf(stderr, LOG_PREFIX "hooked %s via %s\n", name, hook);
+			return (void *)redir_glDrawElements;
+		}
+		if(!strcmp(name, "glXSwapBuffers")) {
+			fprintf(stderr, LOG_PREFIX "hooked %s via %s\n", name, hook);
+			return (void *)redir_glXSwapBuffers;
 		}
 		#endif
 		#if PILLARS_FIX_WATER
