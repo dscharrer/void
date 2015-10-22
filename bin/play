@@ -24,7 +24,7 @@ for arg in $(cat /proc/cmdline); do
 done
 case "$driver" in
 	fglrx)  flags+=( --vo=xv ) ;;
-	radeon) flags+=( --vo=vdpau --hwdec=vdpau ) ;;
+	*)      flags+=( --vo=vdpau --hwdec=vdpau ) ;;
 esac
 
 mode=0
