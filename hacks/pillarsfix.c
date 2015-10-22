@@ -1,7 +1,21 @@
 #if 0
 
 #/*
-# * Fixes for Pillars of Eternity rendering with Mesa.
+# * Fixes for Pillars of Eternity rendering with radeonsi/r600g.
+# *
+# * Usage: sh pillarsfix.c [path/to/game/binary]
+# *
+# * You can copy this file to the game's Steam install and then set the
+# * launch options under Properties → Set Launch Options... to
+# *   sh pillarsfix.c %command%
+# *
+# * Requires:
+# *  - GCC with support for compiling 32-bit binaries
+# *  - 64-bit and 32-bit OpenGL development files (mesa)
+# *  - pkg-config
+# *
+# * Ubuntu users may or may not be able to install these using
+# *   sudo apt-get install gcc-multilib libgl1-mesa-dev libgl1-mesa-dev:i386 pkg-config
 # */
 
 self="$(command -v "$0")" ; self="${self:-$0}" ; self="$(readlink -f "$self")"
@@ -73,6 +87,8 @@ static void * get_proc(const char * name) {
  *
  * Bug #1: The fog of war in the area map contains garbage data with Mesa 11.0 and is
  *         accumulated over successive frames.
+ *
+ * See: https://bugs.freedesktop.org/91656
  *
  * Fix: PoE tries to read from and render to a texture at the same time when
  *      rendering the minimap. This happens directly after clearing the fbo
