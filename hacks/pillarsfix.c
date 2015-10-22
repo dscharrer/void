@@ -320,7 +320,7 @@ static void redir_glProgramStringARB(GLenum target, GLenum format, GLsizei len,
 		}
 	}
 	
-	glProgramStringARB_t real_glProgramStringARB = 0;
+	static glProgramStringARB_t real_glProgramStringARB = 0;
 	if(!real_glProgramStringARB) {
 		real_glProgramStringARB = (glProgramStringARB_t)get_proc("glProgramStringARB");
 	}
