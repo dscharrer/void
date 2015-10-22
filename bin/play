@@ -11,6 +11,7 @@ flags=(
 	--cache-pause=no
 	--alang eng
 	--no-sub-visibility
+	--ytdl-format=bestvideo+bestaudio/best
 )
 #flags=(-msgmodule -msgcolor -fs -cache 8000)
 find_args=( -type f )
