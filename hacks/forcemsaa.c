@@ -19,7 +19,7 @@
 # *
 # * Requires:
 # *  - GCC with support for compiling 32-bit binaries
-# *  - 32-bit OpenGL development files (mesa)
+# *  - 64-bit and 32-bit OpenGL development files (mesa)
 # *  - pkg-config
 # *
 # * Ubuntu users may or may not be able to install these using
