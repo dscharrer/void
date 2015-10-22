@@ -1,6 +1,24 @@
 #if 0
 
-#// See https://bugs.freedesktop.org/show_bug.cgi?id=66067
+#/*
+# * Fixes for Trine Enchanted Edition and Trine 2 rendering with radeonsi/r600g.
+# *
+# * See: https://bugs.freedesktop.org/66067
+# *
+# * Usage: sh trinefix.c [path/to/game/binary]
+# *
+# * You can copy this file to the game's Steam install and then set the
+# * launch options under Properties → Set Launch Options... to
+# *   sh trinefix.c %command%
+# *
+# * Requires:
+# *  - GCC with support for compiling 32-bit binaries
+# *  - 64-bit and 32-bit OpenGL development files (mesa)
+# *  - pkg-config
+# *
+# * Ubuntu users may or may not be able to install these using
+# *   sudo apt-get install gcc-multilib libgl1-mesa-dev libgl1-mesa-dev:i386 pkg-config
+# */
 
 self="$(command -v "$0")" ; self="${self:-$0}" ; self="$(readlink -f "$self")"
 name="${self##*/}" ; name="${name%.c}"
