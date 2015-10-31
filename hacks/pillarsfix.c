@@ -88,6 +88,9 @@ static void * get_proc(const char * name) {
  * Bug #1: The fog of war in the area map contains garbage data with Mesa 11.0 and is
  *         accumulated over successive frames.
  *
+ *         This happens with both the r600g driver and the radeonsi driver in Mesa,
+ *         affecting all modern AMD hardware when using the open-source drivers.
+ *
  * See: https://bugs.freedesktop.org/91656
  *
  * Fix: PoE tries to read from and render to a texture at the same time when
@@ -275,6 +278,10 @@ void glXSwapBuffers(Display * dpy, GLXDrawable drawable) {
  * 
  * Fix: PoE's water shader uses the POW op with a base value that can be negative.
  *      The returned value can be Inf/NaN, which propagates to the cumpute
+ *
+ *      This only happens with both the radeonsi driver in Mesa (GCN hardware, ie HD 7700+),
+ *      but it also happens with the proprietary Catalyst drivers when using the same
+ *      hardware.
  *
  * Note: This bug may not exist with older hardware.
  * 
