@@ -49,8 +49,8 @@ for arch in 32 64 ; do
 			64) pkg_config_path="/usr/lib/x86_64-linux-gnu/pkgconfig/:$PKG_CONFIG_PATH" ;;
 		esac
 		command='"${CC:-gcc}" -shared -std=c99 -fPIC -m$arch -x c -O3 -Wall -Wextra'
-		command+=' "$self" -o "$out/$arch/$soname" -DLOG_PREFIX="\"[$name] \""'
-		command+=" $(PKG_CONFIG_PATH="$pkg_config_path" pkg-config --cflags --libs gl)"
+		command="$command"' "$self" -o "$out/$arch/$soname" -DLOG_PREFIX="\"[$name] \""'
+		command="$command $(PKG_CONFIG_PATH="$pkg_config_path" pkg-config --cflags --libs gl)"
 		eval "$command" || exit 1
 	fi
 	export LD_LIBRARY_PATH="$out/$arch:$LD_LIBRARY_PATH"
