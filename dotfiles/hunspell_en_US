@@ -6,6 +6,7 @@ backends
 bashrc
 bitset
 changelog
+Chocolatey
 CMake
 cmakedefine01
 config
@@ -14,6 +15,7 @@ coverity
 cpp
 cppcheck
 cpplint
+crashhandler
 CSS
 cutscene
 cutscenes
