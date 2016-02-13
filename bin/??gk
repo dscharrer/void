@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Grep recursively for a C/C++ keyword 
+# Usage: ??k <keyword> [grep-args...]
+
+nosym="![a-zA-Z0-9_]"
+
+??g "(?<$nosym)$1(?$nosym)" "${@:2}"
