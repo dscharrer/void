@@ -16,4 +16,4 @@ case "$1" in
 	*)     url="https://www.youtube.com/watch?v=$1" ;;
 esac
 
-exec play --cache=200000 --force-window '' "$url" "${@:2}"
+exec play --cache=200000 --force-window=immediate "$url" "${@:2}"
