@@ -284,7 +284,7 @@ static void hook_init(void) {
 			real_dlsym = (dlsym_t)ptr;
 		}
 		// Get other overwritten symbols
-		real_dlvsym = real_dlsym(RTLD_NEXT, "dlvsym");
+		real_dlvsym = (dlvsym_t)real_dlsym(RTLD_NEXT, "dlvsym");
 		real_glXGetProcAddress
 			= (glXGetProcAddress_t)real_dlsym(RTLD_NEXT, "glXGetProcAddress");
 		real_glXGetProcAddressARB
