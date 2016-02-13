@@ -1,7 +1,7 @@
 #if 0
 
 #/*
-# * Fixe for Never Alone (Kisima Ingitchuna) rendering with radeonsi.
+# * Fix for Never Alone (Kisima Ingitchuna) rendering with radeonsi.
 # *
 # * See: https://bugs.freedesktop.org/66067
 # *
