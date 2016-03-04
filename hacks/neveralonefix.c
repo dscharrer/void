@@ -12,8 +12,8 @@
 # *   sh neveralonefix.c %command%
 # *
 # * Requires:
-# *  - GCC with support for compiling 32-bit binaries
-# *  - 64-bit and 32-bit OpenGL development files (mesa)
+# *  - GCC
+# *  - OpenGL development files (mesa)
 # *  - pkg-config
 # *
 # * Ubuntu users may or may not be able to install these using
@@ -26,7 +26,7 @@ out="${self%/*}/$name"
 soname="$name.so"
 
 #/* Compile the LD_PRELOAD library */
-for arch in 32 64 ; do
+for arch in 64 ; do
 	if [ ! -f "$out/$arch/$soname" ] || [ "$self" -nt "$out/$arch/$soname" ] ; then
 		echo "Compiling $arch-bit $soname..."
 		mkdir -p "$out/$arch"
