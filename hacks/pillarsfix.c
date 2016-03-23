@@ -78,9 +78,11 @@ static void * get_proc(const char * name) {
 /*****************************************************************************************
  *
  * Bug #0: Textures are blurry in some cases.
- * 
- * This bug has been fixed in Unity/PoE by adding support for GLX_MESA_query_renderer.
- * The fix is no longer needed.
+ *
+ * Resolution: This bug has been fixed in Unity/PoE by adding support for GLX_MESA_query_renderer.
+ *             The fix is no longer needed.
+ *             Additionally, Mesa (at least radeonsi) has gained support for
+ *             GL_NVX_gpu_memory_info and GL_ATI_meminfo.
  */
 
 /*****************************************************************************************
@@ -90,6 +92,8 @@ static void * get_proc(const char * name) {
  *
  *         This happens with both the r600g driver and the radeonsi driver in Mesa,
  *         affecting all modern AMD hardware when using the open-source drivers.
+ *
+ * Resolution: This has been fixed in PoE 3.02.
  *
  * See: https://bugs.freedesktop.org/91656
  *
@@ -102,7 +106,7 @@ static void * get_proc(const char * name) {
  *
  * Change the following line to "#define PILLARS_FIX_MAP 0" to disable.
  */
-#define PILLARS_FIX_MAP 1
+#define PILLARS_FIX_MAP 0
 #define PILLARS_PLAIN_MAP 0 // Change to 1 to stop rendering after the area map background
 
 #if PILLARS_FIX_MAP
@@ -275,7 +279,9 @@ void glXSwapBuffers(Display * dpy, GLXDrawable drawable) {
 /*****************************************************************************************
  *
  * Bug #2: The water has black spots with radeonsi.
- * 
+ *
+ * Resolution: This has been fixed in PoE 3.02.
+ *
  * Fix: PoE's water shader uses the POW op with a base value that can be negative.
  *      The returned value can be Inf/NaN, which propagates to the cumpute
  *
@@ -287,7 +293,7 @@ void glXSwapBuffers(Display * dpy, GLXDrawable drawable) {
  * 
  * Change the following line to "#define PILLARS_FIX_WATER 0" to disable.
  */
-#define PILLARS_FIX_WATER 1
+#define PILLARS_FIX_WATER 0
 
 #if PILLARS_FIX_WATER
 
